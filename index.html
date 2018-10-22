@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<title>Beatsaber Space</title>
+<script src="https://cdn.jsdelivr.net/combine/npm/three@0.96.0/build/three.min.js,npm/altspace@2.9.0/dist/altspace.min.js,npm/altspacevr-behaviors@1.1.5/js/altspaceutil.min.js"></script>
+<script>
+	altspaceutil.getFullspaceApp().then(app => {
+		elapsedTime = 0;
+		function createFloorLock() {
+			// Create Floor Locks To Keep Player In Place
+			let slotlock = new THREE.Group();
+			altspaceutil.setCursorCollider(slotlock, true);
+			slotlock.addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false }));
+			app.anchor.add(slotlock);
+
+			/*let floorspot = new THREE.Mesh(new THREE.BoxBufferGeometry(0.1, 0.1, 0.1), new THREE.MeshBasicMaterial({ color: 'white' }));
+			floorspot.position.set(0, -0.1, 0);
+			app.anchor.add(floorspot);*/
+
+			let box1 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ color: 'red', visible: false }));
+			box1.position.set(1, 0, 0);
+			slotlock.add(box1);
+
+			let box2 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ color: 'blue', visible: false }));
+			box2.position.set(0, 0, 1);
+			slotlock.add(box2);
+
+			let box3 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ color: 'green', visible: false }));
+			box3.position.set(-1, 0, 0);
+			slotlock.add(box3);
+
+			let box4 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ color: 'yellow', visible: false }));
+			box4.position.set(0, 0, -1);
+			slotlock.add(box4);
+
+			let button = new THREE.Mesh(new THREE.BoxBufferGeometry(0.4, 0.4, 0.4), new THREE.MeshBasicMaterial({ color: 'orange' }));
+			button.position.set(0, 0, 0);
+			altspaceutil.setCursorCollider(button, true);
+			button.addEventListener('cursordown', event => {
+				slotlock.visible = !slotlock.visible;
+				slotlock.traverse(child => {
+					child.visible = slotlock.visible;
+				});
+			});
+
+			let button2 = new THREE.Mesh(new THREE.BoxBufferGeometry(0.4, 0.4, 0.4), new THREE.MeshBasicMaterial({ color: 'orange' }));
+			button2.position.set(2, 1, 0);
+			altspaceutil.setCursorCollider(button, true);
+			button2.addEventListener('cursordown', event => {
+				slotlock.visible = !slotlock.visible;
+				slotlock.traverse(child => {
+					child.visible = slotlock.visible;
+				});
+			});
+
+			app.anchor.add(slotlock, button, button2);
+
+			slotlock.visible = false;
+			slotlock.traverse(child => {
+				child.visible = slotlock.visible;
+			});
+		}
+		function animate() {
+			onAnimationFrame
+		}
+		createFloorLock();
+
+
+
+		// Create Space Environment
+		let assets = {
+			'blackmetalmeshes': { url: 'assets/blackmetalmeshes.bom', scale: 0.8, position: { x: 0, y: 0, z: 0 } },
+			'blueglowmeshes': { url: 'assets/blueglowmeshes.bom', scale: 0.8, position: { x: 0, y: 0, z: 0 } },
+			'clearglassmeshes': { url: 'assets/clearglassmeshes.bom', scale: 0.8, position: { x: 0, y: 0, z: 0 } },
+			'squareringblackmetal': { url: 'assets/squareringblackmetal.bom', scale: 0.8, position: { x: 0, y: 0, z: 0 } },
+			'squareringred': { url: 'assets/squareringred.bom', scale: 0.8, position: { x: 0, y: 0, z: 0 } }
+		};
+
+		altspaceutil.loadAssets(assets).then(loadedAssets => {
+			console.log(loadedAssets);
+			app.anchor.add(loadedAssets['blackmetalmeshes']);
+			app.anchor.add(loadedAssets['blueglowmeshes']);
+			app.anchor.add(loadedAssets['clearglassmeshes']);
+
+			app.anchor.addBehavior(new class ElapsedTimeTracker {
+			    awake(o) {
+			        elapsedTime = 0;
+			    }
+
+			    update(deltaTime) {
+			        elapsedTime += deltaTime;
+			    }
+			});
+
+			class SpinBehavior {
+			    constructor(timeOffset,speed,amplitude) {
+			        this.timeOffset = timeOffset;
+			        this.speed = speed;
+			        this.amplitude = amplitude;
+			    }
+
+			    awake(o) {
+			        this.object3d = o;
+			    }
+
+			    update(deltaTime) {
+			        this.object3d.rotation.z = Math.sin((elapsedTime+this.timeOffset)/this.speed)*this.amplitude;
+			    }
+			}
+
+			// Create First Ring
+			let redRing = loadedAssets['squareringred'].clone();
+			redRing.addBehavior(new SpinBehavior(0, 10000, 10));
+			redRing.position.set(0, 0, 0);
+			app.anchor.add(redRing);
+
+			let metalRing = loadedAssets['squareringblackmetal'].clone();
+			metalRing.addBehavior(new SpinBehavior(0, 10000, 10));
+			metalRing.position.set(0, 0, 0);
+			app.anchor.add(metalRing);
+
+			// Create Second Ring
+			redRing = loadedAssets['squareringred'].clone();
+			redRing.addBehavior(new SpinBehavior(500, 10000, 10));
+			redRing.position.set(0, 0, 100);
+			app.anchor.add(redRing);
+
+			metalRing = loadedAssets['squareringblackmetal'].clone();
+			metalRing.addBehavior(new SpinBehavior(500, 10000, 10));
+			metalRing.position.set(0, 0, 100);
+			app.anchor.add(metalRing);
+
+			// Create Third Ring
+			redRing = loadedAssets['squareringred'].clone();
+			redRing.addBehavior(new SpinBehavior(1000, 10000, 10));
+			redRing.position.set(0, 0, 200);
+			app.anchor.add(redRing);
+
+			metalRing = loadedAssets['squareringblackmetal'].clone();
+			metalRing.addBehavior(new SpinBehavior(1000, 10000, 10));
+			metalRing.position.set(0, 0, 200);
+			app.anchor.add(metalRing);
+
+			// Create Fourth Ring
+			redRing = loadedAssets['squareringred'].clone();
+			redRing.addBehavior(new SpinBehavior(1500, 10000, 10));
+			redRing.position.set(0, 0, 300);
+			app.anchor.add(redRing);
+
+			metalRing = loadedAssets['squareringblackmetal'].clone();
+			metalRing.addBehavior(new SpinBehavior(1500, 10000, 10));
+			metalRing.position.set(0, 0, 300);
+			app.anchor.add(metalRing);
+
+			// Create Fourth Ring
+			redRing = loadedAssets['squareringred'].clone();
+			redRing.addBehavior(new SpinBehavior(2000, 10000, 10));
+			redRing.position.set(0, 0, 400);
+			app.anchor.add(redRing);
+
+			metalRing = loadedAssets['squareringblackmetal'].clone();
+			metalRing.addBehavior(new SpinBehavior(2000, 10000, 10));
+			metalRing.position.set(0, 0, 400);
+			app.anchor.add(metalRing);
+
+			// Create Fourth Ring
+			redRing = loadedAssets['squareringred'].clone();
+			redRing.addBehavior(new SpinBehavior(2500, 10000, 10));
+			redRing.position.set(0, 0, 500);
+			app.anchor.add(redRing);
+
+			metalRing = loadedAssets['squareringblackmetal'].clone();
+			metalRing.addBehavior(new SpinBehavior(2500, 10000, 10));
+			metalRing.position.set(0, 0, 500);
+			app.anchor.add(metalRing);
+
+			// Create Fourth Ring
+			redRing = loadedAssets['squareringred'].clone();
+			redRing.addBehavior(new SpinBehavior(3000, 10000, 10));
+			redRing.position.set(0, 0, 600);
+			app.anchor.add(redRing);
+
+			metalRing = loadedAssets['squareringblackmetal'].clone();
+			metalRing.addBehavior(new SpinBehavior(3000, 10000, 10));
+			metalRing.position.set(0, 0, 600);
+			app.anchor.add(metalRing);
+
+			// Create Fourth Ring
+			redRing = loadedAssets['squareringred'].clone();
+			redRing.addBehavior(new SpinBehavior(3500, 10000, 10));
+			redRing.position.set(0, 0, 700);
+			app.anchor.add(redRing);
+
+			metalRing = loadedAssets['squareringblackmetal'].clone();
+			metalRing.addBehavior(new SpinBehavior(3500, 10000, 10));
+			metalRing.position.set(0, 0, 700);
+			app.anchor.add(metalRing);
+
+			// Create Fourth Ring
+			redRing = loadedAssets['squareringred'].clone();
+			redRing.addBehavior(new SpinBehavior(4000, 10000, 10));
+			redRing.position.set(0, 0, 800);
+			app.anchor.add(redRing);
+
+			metalRing = loadedAssets['squareringblackmetal'].clone();
+			metalRing.addBehavior(new SpinBehavior(4000, 10000, 10));
+			metalRing.position.set(0, 0, 800);
+			app.anchor.add(metalRing);
+
+			// Create Fourth Ring
+			redRing = loadedAssets['squareringred'].clone();
+			redRing.addBehavior(new SpinBehavior(4500, 10000, 10));
+			redRing.position.set(0, 0, 900);
+			app.anchor.add(redRing);
+
+			metalRing = loadedAssets['squareringblackmetal'].clone();
+			metalRing.addBehavior(new SpinBehavior(4500, 10000, 10));
+			metalRing.position.set(0, 0, 900);
+			app.anchor.add(metalRing);
+
+			// Create Fourth Ring
+			redRing = loadedAssets['squareringred'].clone();
+			redRing.addBehavior(new SpinBehavior(5000, 10000, 10));
+			redRing.position.set(0, 0, 1000);
+			app.anchor.add(redRing);
+
+			metalRing = loadedAssets['squareringblackmetal'].clone();
+			metalRing.addBehavior(new SpinBehavior(5000, 10000, 10));
+			metalRing.position.set(0, 0, 1000);
+			app.anchor.add(metalRing);
+
+			});
+
+	});
+</script>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <title>Beatsaber Space</title>
 <script src="https://cdn.jsdelivr.net/combine/npm/three@0.96.0/build/three.min.js,npm/altspace@2.9.0/dist/altspace.min.js,npm/altspacevr-behaviors@1.1.5/js/altspaceutil.min.js"></script>
-<script src="../js/Lighting.js"></script>
+<script src="js/Lighting.js"></script>
 <script>
 	altspaceutil.getFullspaceApp().then(app => {
 
@@ -109,7 +109,7 @@
 			app.anchor.add(loadedAssets['clearglassmeshes']);
 
 			console.log("Added meshes to anchor");
-			
+
 			app.anchor.addBehavior(new class ElapsedTimeTracker {
 			    awake(o) {
 			        elapsedTime = 0;

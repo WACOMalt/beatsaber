@@ -88,17 +88,17 @@
 	
 			loadedAssets['blackmetalmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
-					lighting.bakeVertexLighting:function(child, light)
+					lighting.bakeVertexLighting(function(child, light))
 					}
 				});
 			loadedAssets['blueglowmeshe'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
-					lighting.bakeVertexLighting:function(child, light)
+					lighting.bakeVertexLighting(function(child, light))
 					}
 				});
 			loadedAssets['clearglassmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
-					lighting.bakeVertexLighting:function(child, light)
+					lighting.bakeVertexLighting(function(child, light))
 					}
 				});
 

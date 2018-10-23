@@ -129,13 +129,13 @@
 			for (i = 0; i < numRings; i++) {
 				redRing = loadedAssets['squareringred'].clone();
 				redRing.addBehavior(new SpinBehavior(ringTimeOffset * (i+1), (1/ringSpeed), ringSpinAmplitude));
-				var spacing = (ringSpacing * i);
-				redRing.position.z = spacing;
+				spacing = (ringSpacing * i);
+				redRing.position.set(0, 0, (ringSpacing * i));
 				app.anchor.add(redRing);
 
 				metalRing = loadedAssets['squareringblackmetal'].clone();
 				metalRing.addBehavior(new SpinBehavior(ringTimeOffset * (i+1), (1/ringSpeed), ringSpinAmplitude));
-				metalRing.position.z = spacing;
+				metalRing.position.set(0, 0, (ringSpacing * i));
 				app.anchor.add(metalRing);
 			}
 

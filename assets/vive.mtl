@@ -1,35 +1,7 @@
-newmtl baseSG
+newmtl viveSG
 illum 4
 Kd 1.00 1.00 1.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
-map_Kd base.png
-Ni 1.00
-newmtl lensSG
-illum 4
-Kd 1.00 1.00 1.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd lens.png
-Ni 1.00
-newmtl logoSG
-illum 4
-Kd 1.00 1.00 1.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd logo.png
-Ni 1.00
-newmtl noiseSG
-illum 4
-Kd 1.00 1.00 1.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd noise.png
-Ni 1.00
-newmtl strapSG
-illum 4
-Kd 0.13 0.13 0.13
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd strap.png
+map_Kd vive.png
 Ni 1.00

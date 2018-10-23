@@ -123,9 +123,9 @@
 			metalRing.position.set(0, 0, ringSpacing);
 			app.anchor.add(metalRing);
 
-			//create animated rings
+			//create rest of rings
 			var i;
-			for (i = 0; i < numRings; i++) {
+			for (i = 0; i < (numRings - 1); i++) {
 				redRing = loadedAssets['squareringred'].clone();
 				redRing.addBehavior(new SpinBehavior(ringTimeOffset * (i + 1), (1/ringSpeed), ringSpinAmplitude));
 				redRing.position.set(0, 0, (ringSpacing * (i + 1)));
@@ -136,6 +136,11 @@
 				metalRing.position.set(0, 0, (ringSpacing * (i + 1)));
 				app.anchor.add(metalRing);
 			}
+
+			//Skybox
+			let skybox = new THREE.Mesh(new THREE.SphereBufferGeometry(800, 32, 32), new THREE.MeshBasicMaterial({ side: THREE.BackSide, map: altspaceutil.loadTexture('assets/Sky_EchoAdventureA.jpg') }));
+			altspaceutil.setCursorCollider(skybox, false);
+			app.scene.add(skybox);
 
 			});
 

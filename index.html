@@ -89,8 +89,28 @@
 			app.anchor.add(loadedAssets['blackmetalmeshes']);
 			app.anchor.add(loadedAssets['blueglowmeshes']);
 			app.anchor.add(loadedAssets['clearglassmeshes']);
-
-			console.log("Lighting stuff possibly done");
+			app._scene.add(app.anchor);
+			loadedAssets['blackmetalmeshes'].traverse( function(child) {
+				if (child instanceof THREE.Mesh) {
+					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
+					console.log(child);
+					lighting.bakeVertexLighting(child, light)
+					}
+				});
+			loadedAssets['blueglowmeshes'].traverse( function(child) {
+				if (child instanceof THREE.Mesh) {
+					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
+					console.log(child);
+					lighting.bakeVertexLighting(child, light)
+					}
+				});
+			loadedAssets['clearglassmeshes'].traverse( function(child) {
+				if (child instanceof THREE.Mesh) {
+					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
+					console.log(child);
+					lighting.bakeVertexLighting(child, light)
+					}
+				});
 
 			app.anchor.addBehavior(new class ElapsedTimeTracker {
 			    awake(o) {
@@ -151,26 +171,5 @@
 			*/
 			});
 
-			loadedAssets['blackmetalmeshes'].traverse( function(child) {
-					if (child instanceof THREE.Mesh) {
-						child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
-						console.log(child);
-						lighting.bakeVertexLighting(child, light)
-						}
-					});
-				loadedAssets['blueglowmeshes'].traverse( function(child) {
-					if (child instanceof THREE.Mesh) {
-						child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
-						console.log(child);
-						lighting.bakeVertexLighting(child, light)
-						}
-					});
-				loadedAssets['clearglassmeshes'].traverse( function(child) {
-					if (child instanceof THREE.Mesh) {
-						child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
-						console.log(child);
-						lighting.bakeVertexLighting(child, light)
-						}
-					});
 	});
 </script>

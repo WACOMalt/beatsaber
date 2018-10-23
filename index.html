@@ -122,12 +122,12 @@
 			for (i = 0; i < numRings; i++) {
 				redRing = loadedAssets['squareringred'].clone();
 				redRing.addBehavior(new SpinBehavior(500 * i, 10000, 10));
-				redRing.position.set(0, 0, 100 * i);
+				redRing.position.set(0, 0, 200 * i);
 				app.anchor.add(redRing);
 
 				metalRing = loadedAssets['squareringblackmetal'].clone();
 				metalRing.addBehavior(new SpinBehavior(500 * i, 10000, 10));
-				metalRing.position.set(0, 0, 100 * i);
+				metalRing.position.set(0, 0, 200 * i);
 				app.anchor.add(metalRing);
 			}
 

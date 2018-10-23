@@ -73,9 +73,6 @@ Lighting.prototype = {
                     vertexPosition.set(positions[(3*i)], positions[(3*i) + 1], positions[(3*i) + 2]);
                 }
                 vertexPosition.applyMatrix4(object.matrixWorld);
-                if( object.parent !== _this.context.scene_graph.container ){
-                    _this.context.scene_graph.container.worldToLocal(vertexPosition);
-                }
 
                 var dist = vertexPosition.distanceTo(light.position);
 
@@ -90,9 +87,6 @@ Lighting.prototype = {
                 }
 
                 vertexNormal.applyMatrix4(object.matrixWorld);
-
-                if( object.parent !== _this.context.scene_graph.container )
-                    _this.context.scene_graph.container.worldToLocal(vertexNormal);
 
                 // get vertexNormalLook
                 normalLook.copy(vertexPosition);

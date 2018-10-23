@@ -84,8 +84,8 @@
 		};
 
 		altspaceutil.loadAssets(assets).then(loadedAssets => {
-			console.log(loadedAssets);
-	
+			console.log(loadedAssets);	
+
 			app.anchor.add(loadedAssets['blackmetalmeshes']);
 			app.anchor.add(loadedAssets['blueglowmeshes']);
 			app.anchor.add(loadedAssets['clearglassmeshes']);
@@ -93,18 +93,21 @@
 			loadedAssets['blackmetalmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
 					console.log(child);
+					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
 					lighting.bakeVertexLighting(child, light)
 					}
 				});
 			loadedAssets['blueglowmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
 					console.log(child);
+					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
 					lighting.bakeVertexLighting(child, light)
 					}
 				});
 			loadedAssets['clearglassmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
 					console.log(child);
+					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
 					lighting.bakeVertexLighting(child, light)
 					}
 				});

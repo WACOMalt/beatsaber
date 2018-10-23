@@ -92,23 +92,23 @@
 
 			loadedAssets['blackmetalmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
-					console.log(child);
 					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
-					lighting.bakeVertexLighting(child, light)
+					console.log(child);
+					//lighting.bakeVertexLighting(child, light)
 					}
 				});
 			loadedAssets['blueglowmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
-					console.log(child);
 					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
-					lighting.bakeVertexLighting(child, light)
+					console.log(child);
+					//lighting.bakeVertexLighting(child, light)
 					}
 				});
 			loadedAssets['clearglassmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
-					console.log(child);
 					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
-					lighting.bakeVertexLighting(child, light)
+					console.log(child);
+					//lighting.bakeVertexLighting(child, light)
 					}
 				});
 

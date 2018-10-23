@@ -108,12 +108,7 @@ Lighting.prototype = {
                 if( !object.geometry.attributes ){
                     value = parseInt(255 * value);
                     value = Math.floor(value*0.8)+30;
-
-                    if(tint_override){
-                        value = "rgb(" + Math.round(((r*(value/255))*t_r)/255) + ", " + Math.round(((g*(value/255))*t_g)/255) + ", " + Math.round(((b*(value/255))*t_b)/255) + ")";
-                    }else{
-                        value = "rgb(" + Math.round(r*(value/255)) + ", " + Math.round(g*(value/255)) + ", " + Math.round(b*(value/255)) + ")";
-                    }
+                    value = "rgb(" + Math.round(r*(value/255)) + ", " + Math.round(g*(value/255)) + ", " + Math.round(b*(value/255)) + ")";
                     if(!!face.vertexColors[j]){
                         face.vertexColors[j].set(value);
                     }else{

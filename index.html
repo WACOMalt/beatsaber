@@ -5,6 +5,10 @@
 	altspaceutil.getFullspaceApp().then(app => {
 		elapsedTime = 0;
 		numRings = 30;
+		ringTimeOffset = 500;
+		ringSpeed = 0.0001;
+		ringSpinAmplitude = 10;
+		ringSpacing = 200;
 		function createFloorLock() {
 			// Create Floor Locks To Keep Player In Place
 			let slotlock = new THREE.Group();
@@ -108,12 +112,12 @@
 
 			// Create First Ring
 			let redRing = loadedAssets['squareringred'].clone();
-			redRing.addBehavior(new SpinBehavior(0, 10000, 10));
+			redRing.addBehavior(new SpinBehavior(ringTimeOffset * i, (1/ringSpeed), ringSpinAmplitude));
 			redRing.position.set(0, 0, 0);
 			app.anchor.add(redRing);
 
 			let metalRing = loadedAssets['squareringblackmetal'].clone();
-			metalRing.addBehavior(new SpinBehavior(0, 10000, 10));
+			metalRing.addBehavior(new SpinBehavior(ringTimeOffset * i, (1/ringSpeed), ringSpinAmplitude));
 			metalRing.position.set(0, 0, 0);
 			app.anchor.add(metalRing);
 
@@ -121,13 +125,13 @@
 			var i;
 			for (i = 0; i < numRings; i++) {
 				redRing = loadedAssets['squareringred'].clone();
-				redRing.addBehavior(new SpinBehavior(500 * i, 10000, 10));
-				redRing.position.set(0, 0, 200 * i);
+				redRing.addBehavior(new SpinBehavior(ringTimeOffset * (i+1), (1/ringSpeed), ringSpinAmplitude));
+				redRing.position.set(0, 0, ringSpacing * i);
 				app.anchor.add(redRing);
 
 				metalRing = loadedAssets['squareringblackmetal'].clone();
-				metalRing.addBehavior(new SpinBehavior(500 * i, 10000, 10));
-				metalRing.position.set(0, 0, 200 * i);
+				metalRing.addBehavior(new SpinBehavior(ringTimeOffset * (i+1), (1/ringSpeed), ringSpinAmplitude));
+				metalRing.position.set(0, 0, ringspacing * i);
 				app.anchor.add(metalRing);
 			}
 

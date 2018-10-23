@@ -95,7 +95,7 @@
 				if (child instanceof THREE.Mesh) {
 					lighting.bakeVertexLighting(child, light)
 					}
-				});
+				}));
 			loadedAssets['blueglowmeshe'].forEach(object=>object.traverse(child=>{
 				if (child instanceof THREE.Mesh) {
 					lighting.bakeVertexLighting(child, light)

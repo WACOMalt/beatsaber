@@ -9,7 +9,7 @@
 		ringTimeOffset = 250;
 		ringSpeed = 0.000025;
 		ringSpinAmplitude = 20;
-		ringSpacing = 160;
+		ringSpacing = 150;
 
 		function createFloorLock() {
 			// Create Floor Locks To Keep Player In Place
@@ -138,7 +138,7 @@
 			}
 
 			//Skybox
-			let skybox = new THREE.Mesh(new THREE.SphereBufferGeometry(5000, 32, 32), new THREE.MeshBasicMaterial({ side: THREE.BackSide, map: altspaceutil.loadTexture('assets/Sky_EchoAdventureA.jpg') }));
+			let skybox = new THREE.Mesh(new THREE.SphereBufferGeometry(3000, 32, 32), new THREE.MeshBasicMaterial({ side: THREE.BackSide, map: altspaceutil.loadTexture('assets/Sky_EchoAdventureA.jpg') }));
 			altspaceutil.setCursorCollider(skybox, false);
 			app.anchor.add(skybox);
 

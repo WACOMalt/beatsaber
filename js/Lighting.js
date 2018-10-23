@@ -31,7 +31,7 @@ Lighting.prototype = {
     bakeVertexLighting:function(object, light){
         var _this = this;
         var output = [];
-        if( !object.geometry ){
+        if( !object.geometry || !object.parent ){
             // object.traverse(function(child){
             //     if( !!child.geometry )
             //         object = child;

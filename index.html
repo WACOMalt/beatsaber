@@ -129,7 +129,7 @@
 			for (i = 0; i < numRings; i++) {
 				redRing = loadedAssets['squareringred'].clone();
 				redRing.addBehavior(new SpinBehavior(ringTimeOffset * (i+1), (1/ringSpeed), ringSpinAmplitude));
-				spacing = (ringSpacing * i);
+				var spacing = (ringSpacing * i);
 				redRing.position.z = spacing;
 				app.anchor.add(redRing);
 

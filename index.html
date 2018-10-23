@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <title>Beatsaber Space</title>
 <script src="https://cdn.jsdelivr.net/combine/npm/three@0.96.0/build/three.min.js,npm/altspace@2.9.0/dist/altspace.min.js,npm/altspacevr-behaviors@1.1.5/js/altspaceutil.min.js"></script>
+<script src="../js/Lighting.js"></script>
 <script>
 	altspaceutil.getFullspaceApp().then(app => {
 
@@ -82,6 +83,22 @@
 		altspaceutil.loadAssets(assets).then(loadedAssets => {
 			console.log(loadedAssets);
 	
+			loadedAssets['blackmetalmeshes'].traverse( function(child) {
+				if (child instanceof THREE.Mesh) {
+					Lighting(child);
+					}
+				});
+			loadedAssets['blueglowmeshes'].traverse( function(child) {
+				if (child instanceof THREE.Mesh) {
+					Lighting(child);
+					}
+				});
+			loadedAssets['clearglassmeshes'].traverse( function(child) {
+				if (child instanceof THREE.Mesh) {
+					Lighting(child);
+					}
+				});
+			
 			app.anchor.add(loadedAssets['blackmetalmeshes']);
 			app.anchor.add(loadedAssets['blueglowmeshes']);
 			app.anchor.add(loadedAssets['clearglassmeshes']);

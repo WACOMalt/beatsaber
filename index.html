@@ -124,18 +124,18 @@
 			app.anchor.add(metalRing);
 
 			//create animated rings
-			//var i;
-			//for (i = 0; i < numRings; i++) {
+			var i;
+			for (i = 0; i < numRings; i++) {
 				redRing = loadedAssets['squareringred'].clone();
-				redRing.addBehavior(new SpinBehavior(ringTimeOffset, (1/ringSpeed), ringSpinAmplitude));
-				redRing.position.set(0, 0, (ringSpacing));
+				redRing.addBehavior(new SpinBehavior(ringTimeOffset * (i + 1), (1/ringSpeed), ringSpinAmplitude));
+				redRing.position.set(0, 0, (ringSpacing * (i + 1)));
 				app.anchor.add(redRing);
 
 				metalRing = loadedAssets['squareringblackmetal'].clone();
-				metalRing.addBehavior(new SpinBehavior(ringTimeOffset, (1/ringSpeed), ringSpinAmplitude));
-				metalRing.position.set(0, 0, (ringSpacing));
+				metalRing.addBehavior(new SpinBehavior(ringTimeOffset * (i + 1), (1/ringSpeed), ringSpinAmplitude));
+				metalRing.position.set(0, 0, (ringSpacing * (i + 1)));
 				app.anchor.add(metalRing);
-			//}
+			}
 
 			});
 

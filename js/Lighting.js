@@ -44,25 +44,6 @@ Lighting.prototype = {
         (object.parent||_this.context.scene_graph.container).updateMatrixWorld();
 
         var count = (!object.geometry.attributes) ? object.geometry.faces.length : object.geometry.attributes.position.count;
-        var tint_override;
-        var findParent = function(object){
-            if(object.parent&&object.parent.userData.plusspace){
-                return object.parent.userData.plusspace.object.tint_override;
-            }else{
-                return findParent(object.parent);
-            }
-        };
-        if(object.userData.plusspace){
-            tint_override = object.userData.plusspace.object.tint_override
-        }else{
-            tint_override = findParent(object);
-        }
-        if(tint_override){
-            var t_hex = (tint_override||"#ffffff").replace('#','');
-            var t_r = parseInt(t_hex.substring(0,2), 16);
-            var t_g = parseInt(t_hex.substring(2,4), 16);
-            var t_b = parseInt(t_hex.substring(4,6), 16);
-        }
 
         var hex = (light.userData.tint||"#ffffff").replace('#','');
         var r = parseInt(hex.substring(0,2), 16);

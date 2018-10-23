@@ -3,12 +3,14 @@
 <script src="https://cdn.jsdelivr.net/combine/npm/three@0.96.0/build/three.min.js,npm/altspace@2.9.0/dist/altspace.min.js,npm/altspacevr-behaviors@1.1.5/js/altspaceutil.min.js"></script>
 <script>
 	altspaceutil.getFullspaceApp().then(app => {
+
 		elapsedTime = 0;
 		numRings = 10;
 		ringTimeOffset = 500;
 		ringSpeed = 0.0001;
 		ringSpinAmplitude = 10;
 		ringSpacing = 200;
+
 		function createFloorLock() {
 			// Create Floor Locks To Keep Player In Place
 			let slotlock = new THREE.Group();
@@ -116,12 +118,12 @@
 			// Create First Ring
 			let redRing = loadedAssets['squareringred'].clone();
 			redRing.addBehavior(new SpinBehavior(ringTimeOffset * i, (1/ringSpeed), ringSpinAmplitude));
-			redRing.position.set(0, 0, 0);
+			redRing.position.set(0, 0, (ringSpacing * i));
 			app.anchor.add(redRing);
 
 			let metalRing = loadedAssets['squareringblackmetal'].clone();
 			metalRing.addBehavior(new SpinBehavior(ringTimeOffset * i, (1/ringSpeed), ringSpinAmplitude));
-			metalRing.position.set(0, 0, 0);
+			metalRing.position.set(0, 0, (ringSpacing * i));
 			app.anchor.add(metalRing);
 
 			//create animated rings
@@ -130,12 +132,12 @@
 				redRing = loadedAssets['squareringred'].clone();
 				redRing.addBehavior(new SpinBehavior(ringTimeOffset * (i+1), (1/ringSpeed), ringSpinAmplitude));
 				spacing = (ringSpacing * i);
-				redRing.position.set(0, 0, (ringSpacing * i));
+				redRing.position.set(0, 0, (ringSpacing * (i + 1)));
 				app.anchor.add(redRing);
 
 				metalRing = loadedAssets['squareringblackmetal'].clone();
 				metalRing.addBehavior(new SpinBehavior(ringTimeOffset * (i+1), (1/ringSpeed), ringSpinAmplitude));
-				metalRing.position.set(0, 0, (ringSpacing * i));
+				metalRing.position.set(0, 0, (ringSpacing * (i + 1)));
 				app.anchor.add(metalRing);
 			}
 

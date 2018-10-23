@@ -89,7 +89,9 @@
 			app.anchor.add(loadedAssets['blackmetalmeshes']);
 			app.anchor.add(loadedAssets['blueglowmeshes']);
 			app.anchor.add(loadedAssets['clearglassmeshes']);
-			app._scene.add(app.anchor);
+
+			//currently broken, Lighting calculate. Needs to run after geometry is added to scene. Not sure how.
+			/*
 			loadedAssets['blackmetalmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
 					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
@@ -111,7 +113,8 @@
 					lighting.bakeVertexLighting(child, light)
 					}
 				});
-
+			*/
+			
 			app.anchor.addBehavior(new class ElapsedTimeTracker {
 			    awake(o) {
 			        elapsedTime = 0;

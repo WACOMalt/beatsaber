@@ -70,6 +70,9 @@
 			onAnimationFrame
 		}
 		createFloorLock();
+		// Initialize vertex lighting
+		let lighting  = new Lighting();
+		let light = new THREE.PointLight( 0xff0000, 1, 100 )
 
 		// Create Space Environment
 		let assets = {
@@ -85,24 +88,28 @@
 	
 			loadedAssets['blackmetalmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
-					Lighting(child);
+					lighting.bakeVertexLighting:function(child, light)
 					}
 				});
-			loadedAssets['blueglowmeshes'].traverse( function(child) {
+			loadedAssets['blueglowmeshe'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
-					Lighting(child);
+					lighting.bakeVertexLighting:function(child, light)
 					}
 				});
 			loadedAssets['clearglassmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
-					Lighting(child);
+					lighting.bakeVertexLighting:function(child, light)
 					}
 				});
-			
+
+			console.log("Lighting stuff possibly done");
+
 			app.anchor.add(loadedAssets['blackmetalmeshes']);
 			app.anchor.add(loadedAssets['blueglowmeshes']);
 			app.anchor.add(loadedAssets['clearglassmeshes']);
 
+			console.log("Added meshes to anchor");
+			
 			app.anchor.addBehavior(new class ElapsedTimeTracker {
 			    awake(o) {
 			        elapsedTime = 0;

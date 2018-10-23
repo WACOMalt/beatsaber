@@ -86,6 +86,10 @@
 		altspaceutil.loadAssets(assets).then(loadedAssets => {
 			console.log(loadedAssets);
 	
+			app.anchor.add(loadedAssets['blackmetalmeshes']);
+			app.anchor.add(loadedAssets['blueglowmeshes']);
+			app.anchor.add(loadedAssets['clearglassmeshes']);
+			
 			loadedAssets['blackmetalmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
 					lighting.bakeVertexLighting(child, light)
@@ -103,12 +107,6 @@
 				});
 
 			console.log("Lighting stuff possibly done");
-
-			app.anchor.add(loadedAssets['blackmetalmeshes']);
-			app.anchor.add(loadedAssets['blueglowmeshes']);
-			app.anchor.add(loadedAssets['clearglassmeshes']);
-
-			console.log("Added meshes to anchor");
 
 			app.anchor.addBehavior(new class ElapsedTimeTracker {
 			    awake(o) {

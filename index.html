@@ -4,6 +4,7 @@
 <script>
 	altspaceutil.getFullspaceApp().then(app => {
 		elapsedTime = 0;
+		numRings = 30;
 		function createFloorLock() {
 			// Create Floor Locks To Keep Player In Place
 			let slotlock = new THREE.Group();
@@ -116,115 +117,19 @@
 			metalRing.position.set(0, 0, 0);
 			app.anchor.add(metalRing);
 
-			// Create Second Ring
-			redRing = loadedAssets['squareringred'].clone();
-			redRing.addBehavior(new SpinBehavior(500, 10000, 10));
-			redRing.position.set(0, 0, 100);
-			app.anchor.add(redRing);
+			//create animated rings
+			var i;
+			for (i = 0; i < numRings; i++) {
+				redRing = loadedAssets['squareringred'].clone();
+				redRing.addBehavior(new SpinBehavior(500 * i, 10000, 10));
+				redRing.position.set(0, 0, 100 * i);
+				app.anchor.add(redRing);
 
-			metalRing = loadedAssets['squareringblackmetal'].clone();
-			metalRing.addBehavior(new SpinBehavior(500, 10000, 10));
-			metalRing.position.set(0, 0, 100);
-			app.anchor.add(metalRing);
-
-			// Create Third Ring
-			redRing = loadedAssets['squareringred'].clone();
-			redRing.addBehavior(new SpinBehavior(1000, 10000, 10));
-			redRing.position.set(0, 0, 200);
-			app.anchor.add(redRing);
-
-			metalRing = loadedAssets['squareringblackmetal'].clone();
-			metalRing.addBehavior(new SpinBehavior(1000, 10000, 10));
-			metalRing.position.set(0, 0, 200);
-			app.anchor.add(metalRing);
-
-			// Create Fourth Ring
-			redRing = loadedAssets['squareringred'].clone();
-			redRing.addBehavior(new SpinBehavior(1500, 10000, 10));
-			redRing.position.set(0, 0, 300);
-			app.anchor.add(redRing);
-
-			metalRing = loadedAssets['squareringblackmetal'].clone();
-			metalRing.addBehavior(new SpinBehavior(1500, 10000, 10));
-			metalRing.position.set(0, 0, 300);
-			app.anchor.add(metalRing);
-
-			// Create Fourth Ring
-			redRing = loadedAssets['squareringred'].clone();
-			redRing.addBehavior(new SpinBehavior(2000, 10000, 10));
-			redRing.position.set(0, 0, 400);
-			app.anchor.add(redRing);
-
-			metalRing = loadedAssets['squareringblackmetal'].clone();
-			metalRing.addBehavior(new SpinBehavior(2000, 10000, 10));
-			metalRing.position.set(0, 0, 400);
-			app.anchor.add(metalRing);
-
-			// Create Fourth Ring
-			redRing = loadedAssets['squareringred'].clone();
-			redRing.addBehavior(new SpinBehavior(2500, 10000, 10));
-			redRing.position.set(0, 0, 500);
-			app.anchor.add(redRing);
-
-			metalRing = loadedAssets['squareringblackmetal'].clone();
-			metalRing.addBehavior(new SpinBehavior(2500, 10000, 10));
-			metalRing.position.set(0, 0, 500);
-			app.anchor.add(metalRing);
-
-			// Create Fourth Ring
-			redRing = loadedAssets['squareringred'].clone();
-			redRing.addBehavior(new SpinBehavior(3000, 10000, 10));
-			redRing.position.set(0, 0, 600);
-			app.anchor.add(redRing);
-
-			metalRing = loadedAssets['squareringblackmetal'].clone();
-			metalRing.addBehavior(new SpinBehavior(3000, 10000, 10));
-			metalRing.position.set(0, 0, 600);
-			app.anchor.add(metalRing);
-
-			// Create Fourth Ring
-			redRing = loadedAssets['squareringred'].clone();
-			redRing.addBehavior(new SpinBehavior(3500, 10000, 10));
-			redRing.position.set(0, 0, 700);
-			app.anchor.add(redRing);
-
-			metalRing = loadedAssets['squareringblackmetal'].clone();
-			metalRing.addBehavior(new SpinBehavior(3500, 10000, 10));
-			metalRing.position.set(0, 0, 700);
-			app.anchor.add(metalRing);
-
-			// Create Fourth Ring
-			redRing = loadedAssets['squareringred'].clone();
-			redRing.addBehavior(new SpinBehavior(4000, 10000, 10));
-			redRing.position.set(0, 0, 800);
-			app.anchor.add(redRing);
-
-			metalRing = loadedAssets['squareringblackmetal'].clone();
-			metalRing.addBehavior(new SpinBehavior(4000, 10000, 10));
-			metalRing.position.set(0, 0, 800);
-			app.anchor.add(metalRing);
-
-			// Create Fourth Ring
-			redRing = loadedAssets['squareringred'].clone();
-			redRing.addBehavior(new SpinBehavior(4500, 10000, 10));
-			redRing.position.set(0, 0, 900);
-			app.anchor.add(redRing);
-
-			metalRing = loadedAssets['squareringblackmetal'].clone();
-			metalRing.addBehavior(new SpinBehavior(4500, 10000, 10));
-			metalRing.position.set(0, 0, 900);
-			app.anchor.add(metalRing);
-
-			// Create Fourth Ring
-			redRing = loadedAssets['squareringred'].clone();
-			redRing.addBehavior(new SpinBehavior(5000, 10000, 10));
-			redRing.position.set(0, 0, 1000);
-			app.anchor.add(redRing);
-
-			metalRing = loadedAssets['squareringblackmetal'].clone();
-			metalRing.addBehavior(new SpinBehavior(5000, 10000, 10));
-			metalRing.position.set(0, 0, 1000);
-			app.anchor.add(metalRing);
+				metalRing = loadedAssets['squareringblackmetal'].clone();
+				metalRing.addBehavior(new SpinBehavior(500 * i, 10000, 10));
+				metalRing.position.set(0, 0, 100 * i);
+				app.anchor.add(metalRing);
+			}
 
 			app.anchor.add(loadedAssets['blackmetalmeshes']);
 			app.anchor.add(loadedAssets['blueglowmeshes']);

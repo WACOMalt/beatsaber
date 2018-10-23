@@ -94,21 +94,21 @@
 				if (child instanceof THREE.Mesh) {
 					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
 					console.log(child);
-					//lighting.bakeVertexLighting(child, light)
+					lighting.bakeVertexLighting(child, light)
 					}
 				});
 			loadedAssets['blueglowmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
 					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
 					console.log(child);
-					//lighting.bakeVertexLighting(child, light)
+					lighting.bakeVertexLighting(child, light)
 					}
 				});
 			loadedAssets['clearglassmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
 					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
 					console.log(child);
-					//lighting.bakeVertexLighting(child, light)
+					lighting.bakeVertexLighting(child, light)
 					}
 				});
 

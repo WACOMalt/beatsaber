@@ -80,6 +80,9 @@
 		altspaceutil.loadAssets(assets).then(loadedAssets => {
 			console.log(loadedAssets);
 	
+			app.anchor.add(loadedAssets['blackmetalmeshes']);
+			app.anchor.add(loadedAssets['blueglowmeshes']);
+			app.anchor.add(loadedAssets['clearglassmeshes']);
 			app.anchor.addBehavior(new class ElapsedTimeTracker {
 			    awake(o) {
 			        elapsedTime = 0;
@@ -134,10 +137,6 @@
 				metalRing.position.set(0, 0, ringSpacing * i);
 				app.anchor.add(metalRing);
 			}
-
-			app.anchor.add(loadedAssets['blackmetalmeshes']);
-			app.anchor.add(loadedAssets['blueglowmeshes']);
-			app.anchor.add(loadedAssets['clearglassmeshes']);
 
 			});
 

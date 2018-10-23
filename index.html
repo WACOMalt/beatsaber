@@ -86,9 +86,9 @@
 		altspaceutil.loadAssets(assets).then(loadedAssets => {
 			console.log(loadedAssets);	
 
-			app.anchor.add(loadedAssets['blackmetalmeshes']);
-			app.anchor.add(loadedAssets['blueglowmeshes']);
-			app.anchor.add(loadedAssets['clearglassmeshes']);
+			app._scene.add(loadedAssets['blackmetalmeshes']);
+			app._scene.add(loadedAssets['blueglowmeshes']);
+			app._scene.add(loadedAssets['clearglassmeshes']);
 
 			loadedAssets['blackmetalmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {

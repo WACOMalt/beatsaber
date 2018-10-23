@@ -114,28 +114,28 @@
 
 			// Create First Ring
 			let redRing = loadedAssets['squareringred'].clone();
-			redRing.addBehavior(new SpinBehavior(ringTimeOffset * i, (1/ringSpeed), ringSpinAmplitude));
-			redRing.position.set(0, 0, ringSpacing );
+			redRing.addBehavior(new SpinBehavior(ringTimeOffset, (1/ringSpeed), ringSpinAmplitude));
+			redRing.position.set(0, 0, ringSpacing);
 			app.anchor.add(redRing);
 
 			let metalRing = loadedAssets['squareringblackmetal'].clone();
-			metalRing.addBehavior(new SpinBehavior(ringTimeOffset * i, (1/ringSpeed), ringSpinAmplitude));
+			metalRing.addBehavior(new SpinBehavior(ringTimeOffset, (1/ringSpeed), ringSpinAmplitude));
 			metalRing.position.set(0, 0, ringSpacing);
 			app.anchor.add(metalRing);
 
 			//create animated rings
-			var i;
-			for (i = 0; i < numRings; i++) {
+			//var i;
+			//for (i = 0; i < numRings; i++) {
 				redRing = loadedAssets['squareringred'].clone();
-				redRing.addBehavior(new SpinBehavior(ringTimeOffset * (i+1), (1/ringSpeed), ringSpinAmplitude));
-				redRing.position.set(0, 0, (ringSpacing * (i + 1)));
+				redRing.addBehavior(new SpinBehavior(ringTimeOffset, (1/ringSpeed), ringSpinAmplitude));
+				redRing.position.set(0, 0, (ringSpacing));
 				app.anchor.add(redRing);
 
 				metalRing = loadedAssets['squareringblackmetal'].clone();
-				metalRing.addBehavior(new SpinBehavior(ringTimeOffset * (i+1), (1/ringSpeed), ringSpinAmplitude));
-				metalRing.position.set(0, 0, (ringSpacing * (i + 1)));
+				metalRing.addBehavior(new SpinBehavior(ringTimeOffset, (1/ringSpeed), ringSpinAmplitude));
+				metalRing.position.set(0, 0, (ringSpacing));
 				app.anchor.add(metalRing);
-			}
+			//}
 
 			});
 

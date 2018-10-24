@@ -14,13 +14,23 @@
 
 		//Create 2D Enclosure
 		let nlayoutbrowser2D = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial({ color: 0xccdd33, transparent: true, opacity: 0.2 }), { visible: false }));
-		nlayoutbrowser2D.position.set(0, 7, 15);
+		nlayoutbrowser2D.position.set(0, 5.5, 15);
 		nlayoutbrowser2D.scale.set(15, 15, 15);
 		nlayoutbrowser2D.rotation.set(0, THREE.Math.degToRad(180), 0);
 		app.anchor.add(nlayoutbrowser2D);
 		nlayoutbrowser2D.addBehaviors(
 			new altspaceutil.behaviors.NativeComponent('n-layout-browser', { url: 'https://mixer.com/embed/player/WACOMalt?disableLowLatency=1' }),
 			//new altspaceutil.behaviors.NativeComponent('n-text', { text: 'n-layout-browser\n2D Enclosure', height: 6, fontSize: 4, verticalAlign: 'top' })
+		);
+
+		// n-layout-browser (3D Enclosure)
+		let nlayoutbrowser3D = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial(), { visible: false }));
+		nlayoutbrowser3D.position.set(15, 2.5, -15);
+		nlayoutbrowser3D.scale.set(5, 5, 5);
+		app.anchor.add(nlayoutbrowser3D);
+		nlayoutbrowser3D.addBehaviors(
+			new altspaceutil.behaviors.NativeComponent('n-layout-browser', { url: 'https://altvr.space/dressup/?event=beatsaber', isEnclosure: true }),
+			//new altspaceutil.behaviors.NativeComponent('n-text', { text: 'n-layout-browser\n3D Enclosure', height: 6, fontSize: 4, verticalAlign: 'top' })
 		);
 
 		app.anchor.add(nlayoutbrowser2D);

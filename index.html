@@ -20,7 +20,7 @@
 		app.anchor.add(nlayoutbrowser2D);
 		nlayoutbrowser2D.addBehaviors(
 			new altspaceutil.behaviors.NativeComponent('n-layout-browser', { url: 'https://mixer.com/embed/player/WACOMalt?disableLowLatency=1' }),
-			new altspaceutil.behaviors.NativeComponent('n-text', { text: 'n-layout-browser\n2D Enclosure', height: 6, fontSize: 4, verticalAlign: 'top' })
+			//new altspaceutil.behaviors.NativeComponent('n-text', { text: 'n-layout-browser\n2D Enclosure', height: 6, fontSize: 4, verticalAlign: 'top' })
 		);
 
 		app.anchor.add(nlayoutbrowser2D);
@@ -84,23 +84,23 @@
 			onAnimationFrame
 		}
 		createFloorLock();
-		// Initialize vertex lighting
-		//let lighting  = new Lighting();
-		//let light = new THREE.PointLight( 0xff0000, 1, 100 )
+		Initialize vertex lighting
+		let lighting  = new Lighting();
+		let light = new THREE.PointLight( 0xff0000, 1, 100 )
 
 		// Create Space Environment
 		let assets = {
-			'blackmetalmeshes': { url: 'assets/blackmetalmeshes2.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+			'blackmetalmeshes3': { url: 'assets/blackmetalmeshes3.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
 			'blueglowmeshes': { url: 'assets/blueglowmeshes.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
 			'clearglassmeshes': { url: 'assets/clearglassmeshes.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
-			'squareringblackmetal': { url: 'assets/squareringblackmetal.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+			'squareringblackmetal2': { url: 'assets/squareringblackmetal2.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
 			'squareringred': { url: 'assets/squareringred.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } }
 		};
 
 		altspaceutil.loadAssets(assets).then(loadedAssets => {
 			console.log(loadedAssets);	
 
-			app.anchor.add(loadedAssets['blackmetalmeshes']);
+			app.anchor.add(loadedAssets['blackmetalmeshes3']);
 			app.anchor.add(loadedAssets['blueglowmeshes']);
 			app.anchor.add(loadedAssets['clearglassmeshes']);
 			//app.anchor.add(light);
@@ -162,7 +162,7 @@
 			redRing.position.set(0, 0, ringSpacing);
 			app.anchor.add(redRing);
 
-			let metalRing = loadedAssets['squareringblackmetal'].clone();
+			let metalRing = loadedAssets['squareringblackmetal2'].clone();
 			metalRing.addBehavior(new SpinBehavior(ringTimeOffset, (1/ringSpeed), ringSpinAmplitude));
 			metalRing.position.set(0, 0, ringSpacing);
 			app.anchor.add(metalRing);
@@ -175,7 +175,7 @@
 				redRing.position.set(0, 0, (ringSpacing * (i + 1)));
 				app.anchor.add(redRing);
 
-				metalRing = loadedAssets['squareringblackmetal'].clone();
+				metalRing = loadedAssets['squareringblackmetal2'].clone();
 				metalRing.addBehavior(new SpinBehavior(ringTimeOffset * (i + 1), (1/ringSpeed), ringSpinAmplitude));
 				metalRing.position.set(0, 0, (ringSpacing * (i + 1)));
 				app.anchor.add(metalRing);

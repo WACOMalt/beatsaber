@@ -71,8 +71,8 @@
 		}
 		createFloorLock();
 		// Initialize vertex lighting
-		let lighting  = new Lighting();
-		let light = new THREE.PointLight( 0xff0000, 1, 100 )
+		//let lighting  = new Lighting();
+		//let light = new THREE.PointLight( 0xff0000, 1, 100 )
 
 		// Create Space Environment
 		let assets = {
@@ -89,10 +89,10 @@
 			app.anchor.add(loadedAssets['blackmetalmeshes']);
 			app.anchor.add(loadedAssets['blueglowmeshes']);
 			app.anchor.add(loadedAssets['clearglassmeshes']);
-			app.anchor.add(light);
+			//app.anchor.add(light);
 
 			//currently broken, Lighting calculate. Needs to run after geometry is added to scene. Not sure how.
-			
+			/*
 			loadedAssets['blackmetalmeshes'].traverse( function(child) {
 				if (child instanceof THREE.Mesh) {
 					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
@@ -114,7 +114,7 @@
 					lighting.bakeVertexLighting(child, light)
 					}
 				});
-			
+			*/
 			
 			app.anchor.addBehavior(new class ElapsedTimeTracker {
 			    awake(o) {
@@ -166,6 +166,18 @@
 				metalRing.position.set(0, 0, (ringSpacing * (i + 1)));
 				app.anchor.add(metalRing);
 			}
+
+
+			//Create 2D Enclosure
+			let nlayoutbrowser2D = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial({ color: 0xccdd33, transparent: true, opacity: 0.2 }), { visible: false }));
+			nlayoutbrowser2D.position.set(-15, 2.5, 15);
+			nlayoutbrowser2D.scale.set(5, 5, 5);
+			nlayoutbrowser2D.rotation.set(0, 90, 0);
+			app.anchor.add(nlayoutbrowser2D);
+			nlayoutbrowser2D.addBehaviors(
+				new altspaceutil.behaviors.NativeComponent('n-layout-browser', { url: 'https://video-jukebox.firebaseapp.com' }),
+				//new altspaceutil.behaviors.NativeComponent('n-text', { text: 'n-layout-browser\n2D Enclosure', height: 6, fontSize: 4, verticalAlign: 'top' })
+			);
 
 			//Skybox
 			/*

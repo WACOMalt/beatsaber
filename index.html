@@ -12,138 +12,6 @@
 		ringSpinAmplitude = 20;
 		ringSpacing = 100;
 
-
-
-
-
-		if(!altspace.inClient) app.scene.addBehavior(new class {
-			constructor(camera) {
-				this.camera = camera;
-			}
-
-			awake(o, s) {
-				this.loading = true;
-
-				altspaceutil.loadScript('https://cdn.jsdelivr.net/npm/three@0.' + THREE.REVISION + '.0/examples/js/controls/PointerLockControls.min.js', { scriptTest: () => THREE.PointerLockControls }).then(() => {
-					if(this.loading) {
-						this.loading = false;
-
-						this.controls = new THREE.PointerLockControls(this.camera);
-						s.add(this.controls.getObject());
-						this.controls.enabled = false;
-
-						this.onPointerLockChange = event => {
-							this.controls.enabled = (document.pointerLockElement === document.body || document.mozPointerLockElement === document.body || document.webkitPointerLockElement === document.body);
-						};
-
-						if(!document.body.requestPointerLock) document.body.requestPointerLock = document.body.requestPointerLock || document.body.mozRequestPointerLock || document.body.webkitRequestPointerLock;
-						if(!document.exitPointerLock) document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
-						this.isPointerLocked = () => document.pointerLockElement === document.body || document.mozPointerLockElement === document.body || document.webkitPointerLockElement === document.body;
-
-						// Hook pointer lock state change events
-						document.addEventListener('pointerlockchange', this.onPointerLockChange, false);
-						document.addEventListener('mozpointerlockchange', this.onPointerLockChange, false);
-						document.addEventListener('webkitpointerlockchange', this.onPointerLockChange, false);
-
-						/*document.body.addEventListener('click', event => {
-							document.body.requestPointerLock();
-						}, false);*/
-
-						this.velocity = new THREE.Vector3();
-						this.moveSpeed = 0.1;
-
-						this.onKeyDown = event => {
-							switch(event.keyCode) {
-								case 38: // up
-								case 87: // w
-									this.velocity.z = -this.moveSpeed;
-									break;
-								case 37: // left
-								case 65: // a
-									this.velocity.x = -this.moveSpeed;
-									break;
-								case 40: // down
-								case 83: // s
-									this.velocity.z = this.moveSpeed;
-									break;
-								case 39: // right
-								case 68: // d
-									this.velocity.x = this.moveSpeed;
-									break;
-							}
-						};
-
-						this.onKeyUp = event => {
-							switch(event.keyCode) {
-								case 38: // up
-								case 87: // w
-									this.velocity.z = 0;
-									break;
-								case 37: // left
-								case 65: // a
-									this.velocity.x = 0;
-									break;
-								case 40: // down
-								case 83: // s
-									this.velocity.z = 0;
-									break;
-								case 39: // right
-								case 68: // d
-									this.velocity.x = 0;
-									break;
-							}
-
-						}
-
-						this.onMouseDown = event => {
-							let isRightClick = (event.which === 3 || event.button === 2);
-							if(isRightClick && !this.isPointerLocked()) document.body.requestPointerLock();
-						};
-
-						this.onMouseUp = event => {
-							let isRightClick = (event.which === 3 || event.button === 2);
-							if(isRightClick && this.isPointerLocked()) document.exitPointerLock();
-						};
-
-						document.addEventListener('keydown', this.onKeyDown, false);
-						document.addEventListener('keyup', this.onKeyUp, false);
-						document.body.addEventListener('mousedown', this.onMouseDown, false);
-						document.body.addEventListener('mouseup', this.onMouseUp, false);
-					}
-				});
-			}
-
-			update(deltaTime) {
-				if(this.controls) {
-					this.controls.getObject().translateX(this.velocity.x * deltaTime);
-					this.controls.getObject().translateY(this.velocity.y * deltaTime);
-					this.controls.getObject().translateZ(this.velocity.z * deltaTime);
-				}
-			}
-
-			dispose() {
-				if(this.loading) this.loading = false;
-				if(this.controls) {
-					this.controls.enabled = false;
-
-					document.removeEventListener('keydown', this.onKeyDown, false);
-					document.removeEventListener('keyup', this.onKeyUp, false);
-					document.body.removeEventListener('mousedown', this.onMouseDown, false);
-					document.body.removeEventListener('mouseup', this.onMouseUp, false);
-
-					if(this.isPointerLocked()) document.exitPointerLock();
-
-					document.removeEventListener('pointerlockchange', this.onPointerLockChange, false);
-					document.removeEventListener('mozpointerlockchange', this.onPointerLockChange, false);
-					document.removeEventListener('webkitpointerlockchange', this.onPointerLockChange, false);
-
-					this.controls = null;
-				}
-			}
-		}(app.camera));
-
-
-
 		//Create 2D Enclosure
 		let nlayoutbrowser2D = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial({ color: 0xccdd33, transparent: true, opacity: 0.2 }), { visible: false }));
 		nlayoutbrowser2D.position.set(0, 5.5, 15);
@@ -321,6 +189,135 @@
 				metalRing.position.set(0, 0, (ringSpacing * (i + 1)));
 				app.anchor.add(metalRing);
 			}
+
+
+
+		if(!altspace.inClient) app.scene.addBehavior(new class {
+			constructor(camera) {
+				this.camera = camera;
+			}
+
+			awake(o, s) {
+				this.loading = true;
+
+				altspaceutil.loadScript('https://cdn.jsdelivr.net/npm/three@0.' + THREE.REVISION + '.0/examples/js/controls/PointerLockControls.min.js', { scriptTest: () => THREE.PointerLockControls }).then(() => {
+					if(this.loading) {
+						this.loading = false;
+
+						this.controls = new THREE.PointerLockControls(this.camera);
+						s.add(this.controls.getObject());
+						this.controls.enabled = false;
+
+						this.onPointerLockChange = event => {
+							this.controls.enabled = (document.pointerLockElement === document.body || document.mozPointerLockElement === document.body || document.webkitPointerLockElement === document.body);
+						};
+
+						if(!document.body.requestPointerLock) document.body.requestPointerLock = document.body.requestPointerLock || document.body.mozRequestPointerLock || document.body.webkitRequestPointerLock;
+						if(!document.exitPointerLock) document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
+						this.isPointerLocked = () => document.pointerLockElement === document.body || document.mozPointerLockElement === document.body || document.webkitPointerLockElement === document.body;
+
+						// Hook pointer lock state change events
+						document.addEventListener('pointerlockchange', this.onPointerLockChange, false);
+						document.addEventListener('mozpointerlockchange', this.onPointerLockChange, false);
+						document.addEventListener('webkitpointerlockchange', this.onPointerLockChange, false);
+
+						/*document.body.addEventListener('click', event => {
+							document.body.requestPointerLock();
+						}, false);*/
+
+						this.velocity = new THREE.Vector3();
+						this.moveSpeed = 0.1;
+
+						this.onKeyDown = event => {
+							switch(event.keyCode) {
+								case 38: // up
+								case 87: // w
+									this.velocity.z = -this.moveSpeed;
+									break;
+								case 37: // left
+								case 65: // a
+									this.velocity.x = -this.moveSpeed;
+									break;
+								case 40: // down
+								case 83: // s
+									this.velocity.z = this.moveSpeed;
+									break;
+								case 39: // right
+								case 68: // d
+									this.velocity.x = this.moveSpeed;
+									break;
+							}
+						};
+
+						this.onKeyUp = event => {
+							switch(event.keyCode) {
+								case 38: // up
+								case 87: // w
+									this.velocity.z = 0;
+									break;
+								case 37: // left
+								case 65: // a
+									this.velocity.x = 0;
+									break;
+								case 40: // down
+								case 83: // s
+									this.velocity.z = 0;
+									break;
+								case 39: // right
+								case 68: // d
+									this.velocity.x = 0;
+									break;
+							}
+
+						}
+
+						this.onMouseDown = event => {
+							let isRightClick = (event.which === 3 || event.button === 2);
+							if(isRightClick && !this.isPointerLocked()) document.body.requestPointerLock();
+						};
+
+						this.onMouseUp = event => {
+							let isRightClick = (event.which === 3 || event.button === 2);
+							if(isRightClick && this.isPointerLocked()) document.exitPointerLock();
+						};
+
+						document.addEventListener('keydown', this.onKeyDown, false);
+						document.addEventListener('keyup', this.onKeyUp, false);
+						document.body.addEventListener('mousedown', this.onMouseDown, false);
+						document.body.addEventListener('mouseup', this.onMouseUp, false);
+					}
+				});
+			}
+
+			update(deltaTime) {
+				if(this.controls) {
+					this.controls.getObject().translateX(this.velocity.x * deltaTime);
+					this.controls.getObject().translateY(this.velocity.y * deltaTime);
+					this.controls.getObject().translateZ(this.velocity.z * deltaTime);
+				}
+			}
+
+			dispose() {
+				if(this.loading) this.loading = false;
+				if(this.controls) {
+					this.controls.enabled = false;
+
+					document.removeEventListener('keydown', this.onKeyDown, false);
+					document.removeEventListener('keyup', this.onKeyUp, false);
+					document.body.removeEventListener('mousedown', this.onMouseDown, false);
+					document.body.removeEventListener('mouseup', this.onMouseUp, false);
+
+					if(this.isPointerLocked()) document.exitPointerLock();
+
+					document.removeEventListener('pointerlockchange', this.onPointerLockChange, false);
+					document.removeEventListener('mozpointerlockchange', this.onPointerLockChange, false);
+					document.removeEventListener('webkitpointerlockchange', this.onPointerLockChange, false);
+
+					this.controls = null;
+				}
+			}
+		}(app.camera));
+
 
 			//Skybox
 			/*

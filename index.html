@@ -98,19 +98,27 @@
 
 		// Create Space Environment
 		let assets = {
-			'blackmetalmeshes3': { url: 'assets/blackmetalmeshes3.bom?foop', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
-			'blueglowmeshes': { url: 'assets/blueglowmeshes.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+			'blackmetalmeshes4': { url: 'assets/blackmetalmeshes4.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+			'blueglowmeshes2': { url: 'assets/blueglowmeshes2.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
 			'clearglassmeshes': { url: 'assets/clearglassmeshes.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
 			'squareringblackmetal2': { url: 'assets/squareringblackmetal2.bom?foop', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
-			'squareringred': { url: 'assets/squareringred.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } }
+			'squareringred': { url: 'assets/squareringred.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+			'stageblackmetal': { url: 'assets/stageblackmetal.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+			'stageblueglow': { url: 'assets/stageblueglow.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+			'standsblackmetal': { url: 'assets/standsblackmetal.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+			'standsblueglow': { url: 'assets/standsblueglow.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } }
 		};
 
 		altspaceutil.loadAssets(assets).then(loadedAssets => {
 			console.log(loadedAssets);	
 
-			app.anchor.add(loadedAssets['blackmetalmeshes3']);
-			app.anchor.add(loadedAssets['blueglowmeshes']);
+			app.anchor.add(loadedAssets['blackmetalmeshes4']);
+			app.anchor.add(loadedAssets['blueglowmeshes2']);
 			app.anchor.add(loadedAssets['clearglassmeshes']);
+			app.anchor.add(loadedAssets['stageblackmetal']);
+			app.anchor.add(loadedAssets['stageblueglow']);
+			app.anchor.add(loadedAssets['standsblackmetal']);
+			app.anchor.add(loadedAssets['standsblueglow']);
 			//app.anchor.add(light);
 
 			//currently broken, Lighting calculate. Needs to run after geometry is added to scene. Not sure how.

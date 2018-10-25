@@ -73,7 +73,7 @@
 			});
 
 			let button2 = new THREE.Mesh(new THREE.BoxBufferGeometry(0.4, 0.4, 0.4), new THREE.MeshBasicMaterial({ color: 'blue' }));
-			button2.position.add(0, +1, -2);
+			button2.position.addVectors(0.0, 1.0, -2.0);
 			altspaceutil.setCursorCollider(button, true);
 			button2.addEventListener('cursordown', event => {
 				slotlock.visible = !slotlock.visible;

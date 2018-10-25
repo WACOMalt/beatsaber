@@ -223,8 +223,9 @@
 			kickTarget.position.set(0, 0, 2);
 			app.anchor.add(kickTarget);
 
-			let restrictedArea = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ visible: false }));
+			let restrictedArea = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 'red', transparent: true, opacity: 0.2, visible: true }));
 			restrictedArea.position.set(0, 1.266, 8.4);
+			restrictedArea.scale.set(7, 100, 2);
 			restrictedArea.addBehavior(new UserWhitelistRestrictedVolume(kickTarget, [/* list of userids to whitelist (in per-domain format) */]));
 			app.anchor.add(restrictedArea);
 

@@ -4,401 +4,408 @@
 <script src="js/Lighting.js?derp3"></script>
 <script>
 	altspaceutil.getFullspaceApp().then(app => {
-		elapsedTime = 0;
-		numRings = 20;
-		ringTimeOffset = 500;
-		ringSpeed = 0.000025;
-		ringSpinAmplitude = 20;
-		ringSpacing = 100;
+		altspace.getUser().then(user => {
+			let whitelistedUserIds = [/* list of userids to whitelist (in per-domain format) */];
+			let isWhitelistedUser = (user.isModerator || (whitelistedUserIds.length > 0 && whitelistedUserIds.indexOf(user.userId) >= 0));
 
-		// Load Stream Display App
-		let streamBrowser = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial({ color: 0xccdd33, transparent: true, opacity: 0.2 }), { visible: false }));
-		streamBrowser.position.set(0, 7.5, 20);
-		streamBrowser.scale.set(15, 15, 15);
-		streamBrowser.rotation.set(0, THREE.Math.degToRad(180), 0);
-		app.anchor.add(streamBrowser);
-		streamBrowser.addBehavior(new altspaceutil.behaviors.NativeComponent('n-layout-browser', { url: 'https://video-jukebox.firebaseapp.com' }));
+			elapsedTime = 0;
+			numRings = 20;
+			ringTimeOffset = 500;
+			ringSpeed = 0.000025;
+			ringSpinAmplitude = 20;
+			ringSpacing = 100;
 
-		// Load Costume Companion App
-		let costumeApp = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial(), { visible: false }));
-		costumeApp.position.set(15, 2.5, -15);
-		costumeApp.scale.set(5, 5, 5);
-		app.anchor.add(costumeApp);
-		costumeApp.addBehavior(new altspaceutil.behaviors.NativeComponent('n-layout-browser', { url: 'https://altvr.space/dressup/?event=beatsaber', isEnclosure: true }));
+			// Load Stream Display App
+			let streamBrowser = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial({ color: 0xccdd33, transparent: true, opacity: 0.2 }), { visible: false }));
+			streamBrowser.position.set(0, 7.5, 20);
+			streamBrowser.scale.set(15, 15, 15);
+			streamBrowser.rotation.set(0, THREE.Math.degToRad(180), 0);
+			app.anchor.add(streamBrowser);
+			streamBrowser.addBehavior(new altspaceutil.behaviors.NativeComponent('n-layout-browser', { url: 'https://video-jukebox.firebaseapp.com' }));
 
-		function createFloorLock(position) {
-			// Create Floor Locks To Keep Player In Place
-			let slotlock = new THREE.Group();
-			altspaceutil.setCursorCollider(slotlock, true);
-			slotlock.addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false }));
-			app.anchor.add(slotlock);
+			// Load Costume Companion App
+			let costumeApp = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial(), { visible: false }));
+			costumeApp.position.set(15, 2.5, -15);
+			costumeApp.scale.set(5, 5, 5);
+			app.anchor.add(costumeApp);
+			costumeApp.addBehavior(new altspaceutil.behaviors.NativeComponent('n-layout-browser', { url: 'https://altvr.space/dressup/?event=beatsaber', isEnclosure: true }));
 
-			let box1 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
-			box1.position.set(1, 0, 0);
-			slotlock.add(box1);
+			function createFloorLock(position) {
+				// Create Floor Locks To Keep Player In Place
+				let slotlock = new THREE.Group();
+				altspaceutil.setCursorCollider(slotlock, true);
+				slotlock.addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false }));
+				app.anchor.add(slotlock);
 
-			let box2 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
-			box2.position.set(0, 0, 1);
-			slotlock.add(box2);
+				let box1 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
+				box1.position.set(1, 0, 0);
+				slotlock.add(box1);
 
-			let box3 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
-			box3.position.set(-1, 0, 0);
-			slotlock.add(box3);
+				let box2 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
+				box2.position.set(0, 0, 1);
+				slotlock.add(box2);
 
-			let box4 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
-			box4.position.set(0, 0, -1);
-			slotlock.add(box4);
+				let box3 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
+				box3.position.set(-1, 0, 0);
+				slotlock.add(box3);
 
-			let button = new THREE.Mesh(new THREE.BoxBufferGeometry(0.4, 0.4, 0.4), new THREE.MeshBasicMaterial({ color: 'blue' }));
-			button.position.add(position);
-			altspaceutil.setCursorCollider(button, true);
-			button.addEventListener('cursordown', event => {
-				slotlock.visible = !slotlock.visible;
+				let box4 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
+				box4.position.set(0, 0, -1);
+				slotlock.add(box4);
+
+				let button = new THREE.Mesh(new THREE.BoxBufferGeometry(0.4, 0.4, 0.4), new THREE.MeshBasicMaterial({ color: 'blue' }));
+				button.position.add(position);
+				altspaceutil.setCursorCollider(button, true);
+				button.addEventListener('cursordown', event => {
+					slotlock.visible = !slotlock.visible;
+					slotlock.traverse(child => {
+						child.visible = slotlock.visible;
+					});
+				});
+
+				let button2 = new THREE.Mesh(new THREE.BoxBufferGeometry(0.4, 0.4, 0.4), new THREE.MeshBasicMaterial({ color: 'blue' }));
+				button2.position.set(0.0, 1.0, 2.0);
+				button2.position.add(position);
+				altspaceutil.setCursorCollider(button, true);
+				button2.addEventListener('cursordown', event => {
+					slotlock.visible = !slotlock.visible;
+					slotlock.traverse(child => {
+						child.visible = slotlock.visible;
+					});
+				});
+
+				app.anchor.add(slotlock, button, button2);
+				slotlock.position.set(position.x, position.y, position.z);
+				slotlock.visible = false;
 				slotlock.traverse(child => {
 					child.visible = slotlock.visible;
 				});
-			});
-
-			let button2 = new THREE.Mesh(new THREE.BoxBufferGeometry(0.4, 0.4, 0.4), new THREE.MeshBasicMaterial({ color: 'blue' }));
-			button2.position.set(0.0, 1.0, 2.0);
-			button2.position.add(position);
-			altspaceutil.setCursorCollider(button, true);
-			button2.addEventListener('cursordown', event => {
-				slotlock.visible = !slotlock.visible;
-				slotlock.traverse(child => {
-					child.visible = slotlock.visible;
-				});
-			});
-
-			app.anchor.add(slotlock, button, button2);
-			slotlock.position.set(position.x, position.y, position.z);
-			slotlock.visible = false;
-			slotlock.traverse(child => {
-				child.visible = slotlock.visible;
-			});
-		}
-
-		//Initialize vertex lighting
-		//let lighting  = new Lighting();
-		//let light = new THREE.PointLight( 0xff0000, 1, 100 )
-
-		// Create Space Environment
-		let assets = {
-			'blackmetalmeshes5': { url: 'assets/blackmetalmeshes5.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
-			'blueglowmeshes2': { url: 'assets/blueglowmeshes2.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
-			'clearglassmeshes': { url: 'assets/clearglassmeshes.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
-			'squareringblackmetal2': { url: 'assets/squareringblackmetal2.bom?foop', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
-			'squareringred': { url: 'assets/squareringred.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
-			'stageblackmetal': { url: 'assets/stageblackmetal.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
-			'stageblueglow': { url: 'assets/stageblueglow.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
-			'standsblackmetal': { url: 'assets/standsblackmetal.bom', scale: 0.6, position: { x: 0, y: 0, z: 7 } },
-			'standsblueglow': { url: 'assets/standsblueglow.bom', scale: 0.6, position: { x: 0, y: 0, z: 7 } }
-		};
-
-		altspaceutil.loadAssets(assets).then(loadedAssets => {
-			app.anchor.add(loadedAssets['blackmetalmeshes5']);
-			app.anchor.add(loadedAssets['blueglowmeshes2']);
-			app.anchor.add(loadedAssets['clearglassmeshes']);
-			app.anchor.add(loadedAssets['stageblackmetal']);
-			app.anchor.add(loadedAssets['stageblueglow']);
-			app.anchor.add(loadedAssets['standsblackmetal']);
-			app.anchor.add(loadedAssets['standsblueglow']);
-
-			// Add Colliders To Stage
-			loadedAssets['standsblackmetal'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
-			loadedAssets['standsblueglow'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
-			loadedAssets['stageblackmetal'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
-			loadedAssets['stageblueglow'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
-
-			createFloorLock(new THREE.Vector3(1.0269714, 1.266, 8.4));
-			createFloorLock(new THREE.Vector3(3.0809136, 1.266, 8.4));
-			createFloorLock(new THREE.Vector3(5.1348558, 1.266, 8.4));
-			createFloorLock(new THREE.Vector3(-1.0269714, 1.266, 8.4));
-			createFloorLock(new THREE.Vector3(-3.0809136, 1.266, 8.4));
-			createFloorLock(new THREE.Vector3(-5.1348558, 1.266, 8.4));
-
-			//app.anchor.add(light);
-
-			//currently broken, Lighting calculate. Needs to run after geometry is added to scene. Not sure how.
-			/*
-			loadedAssets['blackmetalmeshes'].traverse( function(child) {
-				if (child instanceof THREE.Mesh) {
-					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
-					console.log(child);
-					lighting.bakeVertexLighting(child, light)
-					}
-				});
-			loadedAssets['blueglowmeshes'].traverse( function(child) {
-				if (child instanceof THREE.Mesh) {
-					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
-					console.log(child);
-					lighting.bakeVertexLighting(child, light)
-					}
-				});
-			loadedAssets['clearglassmeshes'].traverse( function(child) {
-				if (child instanceof THREE.Mesh) {
-					child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
-					console.log(child);
-					lighting.bakeVertexLighting(child, light)
-					}
-				});
-			*/
-
-			app.anchor.addBehavior(new class ElapsedTimeTracker {
-				awake(o) {
-					elapsedTime = 0;
-				}
-
-				update(deltaTime) {
-					elapsedTime += deltaTime;
-				}
-			});
-
-			class SpinBehavior {
-				constructor(timeOffset,speed,amplitude) {
-					this.timeOffset = timeOffset;
-					this.speed = speed;
-					this.amplitude = amplitude;
-				}
-
-				awake(o) {
-					this.object3d = o;
-				}
-
-				update(deltaTime) {
-					this.object3d.rotation.z = Math.sin((elapsedTime+this.timeOffset)/this.speed)*this.amplitude;
-				}
 			}
 
-			class UserWhitelistRestrictedVolume {
-				constructor(target, whitelistedUserIds) {
-					this.target = target;
-					this.userids = whitelistedUserIds || [];
-					this.enabled = true;
-				}
+			//Initialize vertex lighting
+			//let lighting  = new Lighting();
+			//let light = new THREE.PointLight( 0xff0000, 1, 100 )
 
-				awake(o, s) {
-					this.loading = true;
-					this.scene = s;
-					this.object3d = o;
-
-					Promise.all([altspace.getUser(), altspace.getThreeJSTrackingSkeleton()]).then(resolvers => {
-						let [user, skeleton] = resolvers;
-
-						if(this.loading) {
-							this.loading = false;
-							this.user = user;
-
-							if(!skeleton.parent) this.scene.add(skeleton);
-							this.avatar = skeleton.getJoint('Spine');
-
-							this.portal = new THREE.Object3D();
-							this.portal.visible = false;
-							this.portal.addBehavior(new altspaceutil.behaviors.NativeComponent('n-portal', {}, { targetEntity: this.target }));
-							document.createElement('a-entity');
-							self.el.sceneEl.appendChild(self.portal);
-
-							this.box = new THREE.Box3();
-						}
-					});
-				}
-
-				update(deltaTime) {
-					if(this.box) {
-						this.box.setFromObject(this.object3d);
-						this.portal.position.copy(this.avatar.position);
-
-						let isWhitelistedUser = (!this.enabled || this.user.isModerator || (this.userids.length > 0 && this.userids.indexOf(this.user.userId) >= 0));
-						this.portal.visible = (!isWhitelistedUser && this.avatar && this.box.containsPoint(this.avatar.position));
-					}
-				}
-
-				dispose() {
-					if(this.loading) this.loading = false;
-				}
+			// Create Space Environment
+			let assets = {
+				'blackmetalmeshes5': { url: 'assets/blackmetalmeshes5.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+				'blueglowmeshes2': { url: 'assets/blueglowmeshes2.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+				'clearglassmeshes': { url: 'assets/clearglassmeshes2.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+				'squareringblackmetal2': { url: 'assets/squareringblackmetal2.bom?foop', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+				'squareringred': { url: 'assets/squareringred.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+				'stageblackmetal': { url: 'assets/stageblackmetal.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+				'stageblueglow': { url: 'assets/stageblueglow.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+				'standsblackmetal': { url: 'assets/standsblackmetal.bom', scale: 0.6, position: { x: 0, y: 0, z: 7 } },
+				'standsblueglow': { url: 'assets/standsblueglow.bom', scale: 0.6, position: { x: 0, y: 0, z: 7 } }
 			};
 
-			// Add Restricted Zone For Whitelisted Users
-			let kickTarget = new THREE.Object3D();
-			kickTarget.position.set(0, 0, 2);
-			app.anchor.add(kickTarget);
+			altspaceutil.loadAssets(assets).then(loadedAssets => {
+				app.anchor.add(loadedAssets['blackmetalmeshes5']);
+				app.anchor.add(loadedAssets['blueglowmeshes2']);
+				app.anchor.add(loadedAssets['clearglassmeshes']);
+				app.anchor.add(loadedAssets['stageblackmetal']);
+				app.anchor.add(loadedAssets['stageblueglow']);
+				app.anchor.add(loadedAssets['standsblackmetal']);
+				app.anchor.add(loadedAssets['standsblueglow']);
 
-			let restrictedArea = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 'red', transparent: true, opacity: 0.2, visible: true }));
-			restrictedArea.position.set(0, 1.266, 8.4);
-			restrictedArea.scale.set(7, 100, 2);
-			restrictedArea.addBehavior(new UserWhitelistRestrictedVolume(kickTarget, [/* list of userids to whitelist (in per-domain format) */]));
-			app.anchor.add(restrictedArea);
+				// Add Colliders To Stage
+				loadedAssets['standsblackmetal'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
+				loadedAssets['standsblueglow'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
+				loadedAssets['stageblackmetal'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
+				loadedAssets['stageblueglow'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
 
-			// Create First Ring
-			let redRing = loadedAssets['squareringred'].clone();
-			redRing.addBehavior(new SpinBehavior(ringTimeOffset, (1/ringSpeed), ringSpinAmplitude));
-			redRing.position.set(0, 0, ringSpacing);
-			app.anchor.add(redRing);
-
-			let metalRing = loadedAssets['squareringblackmetal2'].clone();
-			metalRing.addBehavior(new SpinBehavior(ringTimeOffset, (1/ringSpeed), ringSpinAmplitude));
-			metalRing.position.set(0, 0, ringSpacing);
-			app.anchor.add(metalRing);
-
-			//create rest of rings
-			var i;
-			for (i = 0; i < (numRings - 1); i++) {
-				redRing = loadedAssets['squareringred'].clone();
-				redRing.addBehavior(new SpinBehavior(ringTimeOffset * (i + 1), (1/ringSpeed), ringSpinAmplitude));
-				redRing.position.set(0, 0, (ringSpacing * (i + 1)));
-				app.anchor.add(redRing);
-
-				metalRing = loadedAssets['squareringblackmetal2'].clone();
-				metalRing.addBehavior(new SpinBehavior(ringTimeOffset * (i + 1), (1/ringSpeed), ringSpinAmplitude));
-				metalRing.position.set(0, 0, (ringSpacing * (i + 1)));
-				app.anchor.add(metalRing);
-			}
-
-			if(!altspace.inClient) app.scene.addBehavior(new class {
-				constructor(camera) {
-					this.camera = camera;
+				if(isWhitelistedUser) {
+					createFloorLock(new THREE.Vector3(1.0269714, 1.266, 8.4));
+					createFloorLock(new THREE.Vector3(3.0809136, 1.266, 8.4));
+					createFloorLock(new THREE.Vector3(5.1348558, 1.266, 8.4));
+					createFloorLock(new THREE.Vector3(-1.0269714, 1.266, 8.4));
+					createFloorLock(new THREE.Vector3(-3.0809136, 1.266, 8.4));
+					createFloorLock(new THREE.Vector3(-5.1348558, 1.266, 8.4));
 				}
 
-				awake(o, s) {
-					this.loading = true;
+				//app.anchor.add(light);
 
-					altspaceutil.loadScript('https://cdn.jsdelivr.net/npm/three@0.' + THREE.REVISION + '.0/examples/js/controls/PointerLockControls.min.js', { scriptTest: () => THREE.PointerLockControls }).then(() => {
-						if(this.loading) {
-							this.loading = false;
-
-							this.controls = new THREE.PointerLockControls(this.camera);
-							s.add(this.controls.getObject());
-							this.controls.enabled = false;
-
-							this.onPointerLockChange = event => {
-								this.controls.enabled = (document.pointerLockElement === document.body || document.mozPointerLockElement === document.body || document.webkitPointerLockElement === document.body);
-							};
-
-							if(!document.body.requestPointerLock) document.body.requestPointerLock = document.body.requestPointerLock || document.body.mozRequestPointerLock || document.body.webkitRequestPointerLock;
-							if(!document.exitPointerLock) document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
-							this.isPointerLocked = () => document.pointerLockElement === document.body || document.mozPointerLockElement === document.body || document.webkitPointerLockElement === document.body;
-
-							// Hook pointer lock state change events
-							document.addEventListener('pointerlockchange', this.onPointerLockChange, false);
-							document.addEventListener('mozpointerlockchange', this.onPointerLockChange, false);
-							document.addEventListener('webkitpointerlockchange', this.onPointerLockChange, false);
-
-							/*document.body.addEventListener('click', event => {
-								document.body.requestPointerLock();
-							}, false);*/
-
-							this.velocity = new THREE.Vector3();
-							this.moveSpeed = 0.01;
-
-							this.onKeyDown = event => {
-								switch(event.keyCode) {
-									case 38: // up
-									case 87: // w
-										this.velocity.z = -this.moveSpeed;
-										break;
-									case 37: // left
-									case 65: // a
-										this.velocity.x = -this.moveSpeed;
-										break;
-									case 40: // down
-									case 83: // s
-										this.velocity.z = this.moveSpeed;
-										break;
-									case 39: // right
-									case 68: // d
-										this.velocity.x = this.moveSpeed;
-										break;
-									case 81: // q
-										this.velocity.y = -this.moveSpeed;
-										break;
-									case 69: // e
-										this.velocity.y = this.moveSpeed;
-										break;
-								}
-							};
-
-							this.onKeyUp = event => {
-								switch(event.keyCode) {
-									case 38: // up
-									case 87: // w
-										this.velocity.z = 0;
-										break;
-									case 37: // left
-									case 65: // a
-										this.velocity.x = 0;
-										break;
-									case 40: // down
-									case 83: // s
-										this.velocity.z = 0;
-										break;
-									case 39: // right
-									case 68: // d
-										this.velocity.x = 0;
-										break;
-									case 81: // q
-										this.velocity.y = 0;
-										break;
-									case 69: // e
-										this.velocity.y = 0;
-										break;
-								}
-
-							}
-
-							this.onMouseDown = event => {
-								let isRightClick = (event.which === 3 || event.button === 2);
-								if(isRightClick && !this.isPointerLocked()) document.body.requestPointerLock();
-							};
-
-							this.onMouseUp = event => {
-								let isRightClick = (event.which === 3 || event.button === 2);
-								if(isRightClick && this.isPointerLocked()) document.exitPointerLock();
-							};
-
-							document.addEventListener('keydown', this.onKeyDown, false);
-							document.addEventListener('keyup', this.onKeyUp, false);
-							document.body.addEventListener('mousedown', this.onMouseDown, false);
-							document.body.addEventListener('mouseup', this.onMouseUp, false);
+				//currently broken, Lighting calculate. Needs to run after geometry is added to scene. Not sure how.
+				/*
+				loadedAssets['blackmetalmeshes'].traverse( function(child) {
+					if (child instanceof THREE.Mesh) {
+						child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
+						console.log(child);
+						lighting.bakeVertexLighting(child, light)
 						}
 					});
-				}
+				loadedAssets['blueglowmeshes'].traverse( function(child) {
+					if (child instanceof THREE.Mesh) {
+						child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
+						console.log(child);
+						lighting.bakeVertexLighting(child, light)
+						}
+					});
+				loadedAssets['clearglassmeshes'].traverse( function(child) {
+					if (child instanceof THREE.Mesh) {
+						child.geometry = new THREE.Geometry().fromBufferGeometry(child.geometry)
+						console.log(child);
+						lighting.bakeVertexLighting(child, light)
+						}
+					});
+				*/
 
-				update(deltaTime) {
-					if(this.controls) {
-						this.controls.getObject().translateX(this.velocity.x * deltaTime);
-						this.controls.getObject().translateY(this.velocity.y * deltaTime);
-						this.controls.getObject().translateZ(this.velocity.z * deltaTime);
+				app.anchor.addBehavior(new class ElapsedTimeTracker {
+					awake(o) {
+						elapsedTime = 0;
+					}
+
+					update(deltaTime) {
+						elapsedTime += deltaTime;
+					}
+				});
+
+				class SpinBehavior {
+					constructor(timeOffset,speed,amplitude) {
+						this.timeOffset = timeOffset;
+						this.speed = speed;
+						this.amplitude = amplitude;
+					}
+
+					awake(o) {
+						this.object3d = o;
+					}
+
+					update(deltaTime) {
+						this.object3d.rotation.z = Math.sin((elapsedTime+this.timeOffset)/this.speed)*this.amplitude;
 					}
 				}
 
-				dispose() {
-					if(this.loading) this.loading = false;
-					if(this.controls) {
-						this.controls.enabled = false;
-
-						document.removeEventListener('keydown', this.onKeyDown, false);
-						document.removeEventListener('keyup', this.onKeyUp, false);
-						document.body.removeEventListener('mousedown', this.onMouseDown, false);
-						document.body.removeEventListener('mouseup', this.onMouseUp, false);
-
-						if(this.isPointerLocked()) document.exitPointerLock();
-
-						document.removeEventListener('pointerlockchange', this.onPointerLockChange, false);
-						document.removeEventListener('mozpointerlockchange', this.onPointerLockChange, false);
-						document.removeEventListener('webkitpointerlockchange', this.onPointerLockChange, false);
-
-						this.controls = null;
+				class UserWhitelistRestrictedVolume {
+					constructor(target, whitelistedUserIds) {
+						this.target = target;
+						this.userids = whitelistedUserIds || [];
+						this.enabled = true;
 					}
-				}
-			}(app.camera));
 
-			// Skybox
-			if(!altspace.inClient) {
-				let skybox = new THREE.Mesh(new THREE.SphereBufferGeometry(1000, 32, 32), new THREE.MeshBasicMaterial({ side: THREE.BackSide, map: altspaceutil.loadTexture('assets/Sky_EchoAdventureA.jpg') }));
-				altspaceutil.setCursorCollider(skybox, false);
-				skybox.rotation.set(0, THREE.Math.degToRad(180), 0);
-				app.anchor.add(skybox);
-			}
+					awake(o, s) {
+						this.loading = true;
+						this.scene = s;
+						this.object3d = o;
+						this.object3d.visible = false;
+
+						Promise.all([altspace.getUser(), altspace.getThreeJSTrackingSkeleton()]).then(resolvers => {
+							let [user, skeleton] = resolvers;
+
+							if(this.loading) {
+								this.loading = false;
+								this.user = user;
+
+								if(!skeleton.parent) this.scene.add(skeleton);
+								this.avatar = skeleton.getJoint('Spine');
+
+								this.portal = new THREE.Object3D();
+								this.portal.visible = false;
+								this.portal.addBehavior(new altspaceutil.behaviors.NativeComponent('n-portal', {}, { targetEntity: this.target }));
+								this.scene.add(this.portal);
+
+								this.box = new THREE.Box3();
+							}
+						});
+					}
+
+					update(deltaTime) {
+						if(this.box) {
+							this.box.setFromObject(this.object3d);
+							this.portal.position.copy(this.avatar.position);
+
+							let isWhitelistedUser = (!this.enabled || this.user.isModerator || (this.userids.length > 0 && this.userids.indexOf(this.user.userId) >= 0));
+							this.portal.visible = (!isWhitelistedUser && this.avatar && this.box.containsPoint(this.avatar.position));
+						}
+					}
+
+					dispose() {
+						if(this.loading) this.loading = false;
+					}
+				};
+
+				// Add Restricted Zone For Whitelisted Users
+				let kickTarget = new THREE.Object3D();
+				kickTarget.position.set(0, 0, 2);
+				app.anchor.add(kickTarget);
+
+				let restrictedArea = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ visible: false }));
+				altspaceutil.setCursorCollider(this.object3d, false);
+				restrictedArea.position.set(0, 1.266, 8.4);
+				restrictedArea.scale.set(13.5, 100, 3);
+				restrictedArea.addBehavior(new UserWhitelistRestrictedVolume(kickTarget, whitelistedUserIds));
+				app.anchor.add(restrictedArea);
+
+				// Create First Ring
+				let redRing = loadedAssets['squareringred'].clone();
+				redRing.addBehavior(new SpinBehavior(ringTimeOffset, (1/ringSpeed), ringSpinAmplitude));
+				redRing.position.set(0, 0, ringSpacing);
+				app.anchor.add(redRing);
+
+				let metalRing = loadedAssets['squareringblackmetal2'].clone();
+				metalRing.addBehavior(new SpinBehavior(ringTimeOffset, (1/ringSpeed), ringSpinAmplitude));
+				metalRing.position.set(0, 0, ringSpacing);
+				app.anchor.add(metalRing);
+
+				//create rest of rings
+				for(let i = 0; i < (numRings - 1); ++i) {
+					redRing = loadedAssets['squareringred'].clone();
+					redRing.addBehavior(new SpinBehavior(ringTimeOffset * (i + 1), (1 / ringSpeed), ringSpinAmplitude));
+					redRing.position.set(0, 0, (ringSpacing * (i + 1)));
+					app.anchor.add(redRing);
+
+					metalRing = loadedAssets['squareringblackmetal2'].clone();
+					metalRing.addBehavior(new SpinBehavior(ringTimeOffset * (i + 1), (1 / ringSpeed), ringSpinAmplitude));
+					metalRing.position.set(0, 0, (ringSpacing * (i + 1)));
+					app.anchor.add(metalRing);
+				}
+
+				if(!altspace.inClient) app.scene.addBehavior(new class {
+					constructor(camera) {
+						this.camera = camera;
+					}
+
+					awake(o, s) {
+						this.loading = true;
+
+						altspaceutil.loadScript('https://cdn.jsdelivr.net/npm/three@0.' + THREE.REVISION + '.0/examples/js/controls/PointerLockControls.min.js', { scriptTest: () => THREE.PointerLockControls }).then(() => {
+							if(this.loading) {
+								this.loading = false;
+
+								this.controls = new THREE.PointerLockControls(this.camera);
+								s.add(this.controls.getObject());
+								this.controls.enabled = false;
+
+								this.onPointerLockChange = event => {
+									this.controls.enabled = (document.pointerLockElement === document.body || document.mozPointerLockElement === document.body || document.webkitPointerLockElement === document.body);
+								};
+
+								if(!document.body.requestPointerLock) document.body.requestPointerLock = document.body.requestPointerLock || document.body.mozRequestPointerLock || document.body.webkitRequestPointerLock;
+								if(!document.exitPointerLock) document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
+								this.isPointerLocked = () => document.pointerLockElement === document.body || document.mozPointerLockElement === document.body || document.webkitPointerLockElement === document.body;
+
+								// Hook pointer lock state change events
+								document.addEventListener('pointerlockchange', this.onPointerLockChange, false);
+								document.addEventListener('mozpointerlockchange', this.onPointerLockChange, false);
+								document.addEventListener('webkitpointerlockchange', this.onPointerLockChange, false);
+
+								/*document.body.addEventListener('click', event => {
+									document.body.requestPointerLock();
+								}, false);*/
+
+								this.velocity = new THREE.Vector3();
+								this.moveSpeed = 0.01;
+
+								this.onKeyDown = event => {
+									switch(event.keyCode) {
+										case 38: // up
+										case 87: // w
+											this.velocity.z = -this.moveSpeed;
+											break;
+										case 37: // left
+										case 65: // a
+											this.velocity.x = -this.moveSpeed;
+											break;
+										case 40: // down
+										case 83: // s
+											this.velocity.z = this.moveSpeed;
+											break;
+										case 39: // right
+										case 68: // d
+											this.velocity.x = this.moveSpeed;
+											break;
+										case 81: // q
+											this.velocity.y = -this.moveSpeed;
+											break;
+										case 69: // e
+											this.velocity.y = this.moveSpeed;
+											break;
+									}
+								};
+
+								this.onKeyUp = event => {
+									switch(event.keyCode) {
+										case 38: // up
+										case 87: // w
+											this.velocity.z = 0;
+											break;
+										case 37: // left
+										case 65: // a
+											this.velocity.x = 0;
+											break;
+										case 40: // down
+										case 83: // s
+											this.velocity.z = 0;
+											break;
+										case 39: // right
+										case 68: // d
+											this.velocity.x = 0;
+											break;
+										case 81: // q
+											this.velocity.y = 0;
+											break;
+										case 69: // e
+											this.velocity.y = 0;
+											break;
+									}
+
+								}
+
+								this.onMouseDown = event => {
+									let isRightClick = (event.which === 3 || event.button === 2);
+									if(isRightClick && !this.isPointerLocked()) document.body.requestPointerLock();
+								};
+
+								this.onMouseUp = event => {
+									let isRightClick = (event.which === 3 || event.button === 2);
+									if(isRightClick && this.isPointerLocked()) document.exitPointerLock();
+								};
+
+								document.addEventListener('keydown', this.onKeyDown, false);
+								document.addEventListener('keyup', this.onKeyUp, false);
+								document.body.addEventListener('mousedown', this.onMouseDown, false);
+								document.body.addEventListener('mouseup', this.onMouseUp, false);
+							}
+						});
+					}
+
+					update(deltaTime) {
+						if(this.controls) {
+							this.controls.getObject().translateX(this.velocity.x * deltaTime);
+							this.controls.getObject().translateY(this.velocity.y * deltaTime);
+							this.controls.getObject().translateZ(this.velocity.z * deltaTime);
+						}
+					}
+
+					dispose() {
+						if(this.loading) this.loading = false;
+						if(this.controls) {
+							this.controls.enabled = false;
+
+							document.removeEventListener('keydown', this.onKeyDown, false);
+							document.removeEventListener('keyup', this.onKeyUp, false);
+							document.body.removeEventListener('mousedown', this.onMouseDown, false);
+							document.body.removeEventListener('mouseup', this.onMouseUp, false);
+
+							if(this.isPointerLocked()) document.exitPointerLock();
+
+							document.removeEventListener('pointerlockchange', this.onPointerLockChange, false);
+							document.removeEventListener('mozpointerlockchange', this.onPointerLockChange, false);
+							document.removeEventListener('webkitpointerlockchange', this.onPointerLockChange, false);
+
+							this.controls = null;
+						}
+					}
+				}(app.camera));
+
+				// Skybox
+				if(!altspace.inClient) {
+					let skybox = new THREE.Mesh(new THREE.SphereBufferGeometry(1000, 32, 32), new THREE.MeshBasicMaterial({ side: THREE.BackSide, map: altspaceutil.loadTexture('assets/Sky_EchoAdventureA.jpg') }));
+					altspaceutil.setCursorCollider(skybox, false);
+					skybox.rotation.set(0, THREE.Math.degToRad(180), 0);
+					app.anchor.add(skybox);
+				}
+			});
 		});
 	}).catch(e => console.log(e));
 </script>

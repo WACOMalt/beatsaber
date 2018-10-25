@@ -4,7 +4,6 @@
 <script src="js/Lighting.js?derp3"></script>
 <script>
 	altspaceutil.getFullspaceApp().then(app => {
-
 		elapsedTime = 0;
 		numRings = 20;
 		ringTimeOffset = 500;
@@ -12,53 +11,41 @@
 		ringSpinAmplitude = 20;
 		ringSpacing = 100;
 
-		//Create 2D Enclosure
-		let nlayoutbrowser2D = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial({ color: 0xccdd33, transparent: true, opacity: 0.2 }), { visible: false }));
-		nlayoutbrowser2D.position.set(0, 7.5, 20);
-		nlayoutbrowser2D.scale.set(15, 15, 15);
-		nlayoutbrowser2D.rotation.set(0, THREE.Math.degToRad(180), 0);
-		app.anchor.add(nlayoutbrowser2D);
-		nlayoutbrowser2D.addBehaviors(
-			new altspaceutil.behaviors.NativeComponent('n-layout-browser', { url: 'https://video-jukebox.firebaseapp.com' }),
-			//new altspaceutil.behaviors.NativeComponent('n-text', { text: 'n-layout-browser\n2D Enclosure', height: 6, fontSize: 4, verticalAlign: 'top' })
-		);
+		// Load Stream Display App
+		let streamBrowser = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial({ color: 0xccdd33, transparent: true, opacity: 0.2 }), { visible: false }));
+		streamBrowser.position.set(0, 7.5, 20);
+		streamBrowser.scale.set(15, 15, 15);
+		streamBrowser.rotation.set(0, THREE.Math.degToRad(180), 0);
+		app.anchor.add(streamBrowser);
+		streamBrowser.addBehavior(new altspaceutil.behaviors.NativeComponent('n-layout-browser', { url: 'https://video-jukebox.firebaseapp.com' }));
 
-		// n-layout-browser (3D Enclosure)
-		let nlayoutbrowser3D = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial(), { visible: false }));
-		nlayoutbrowser3D.position.set(15, 2.5, -15);
-		nlayoutbrowser3D.scale.set(5, 5, 5);
-		app.anchor.add(nlayoutbrowser3D);
-		nlayoutbrowser3D.addBehaviors(
-			new altspaceutil.behaviors.NativeComponent('n-layout-browser', { url: 'https://altvr.space/dressup/?event=beatsaber', isEnclosure: true }),
-			//new altspaceutil.behaviors.NativeComponent('n-text', { text: 'n-layout-browser\n3D Enclosure', height: 6, fontSize: 4, verticalAlign: 'top' })
-		);
-
+		// Load Costume Companion App
+		let costumeApp = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial(), { visible: false }));
+		costumeApp.position.set(15, 2.5, -15);
+		costumeApp.scale.set(5, 5, 5);
+		app.anchor.add(costumeApp);
+		costumeApp.addBehavior(new altspaceutil.behaviors.NativeComponent('n-layout-browser', { url: 'https://altvr.space/dressup/?event=beatsaber', isEnclosure: true }));
 
 		function createFloorLock(position) {
-
 			// Create Floor Locks To Keep Player In Place
 			let slotlock = new THREE.Group();
 			altspaceutil.setCursorCollider(slotlock, true);
 			slotlock.addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false }));
 			app.anchor.add(slotlock);
 
-			/*let floorspot = new THREE.Mesh(new THREE.BoxBufferGeometry(0.1, 0.1, 0.1), new THREE.MeshBasicMaterial({ color: 'white' }));
-			floorspot.position.set(0, -0.1, 0);
-			app.anchor.add(floorspot);*/
-
-			let box1 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ color: 'red', visible: false }));
+			let box1 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
 			box1.position.set(1, 0, 0);
 			slotlock.add(box1);
 
-			let box2 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ color: 'blue', visible: false }));
+			let box2 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
 			box2.position.set(0, 0, 1);
 			slotlock.add(box2);
 
-			let box3 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ color: 'green', visible: false }));
+			let box3 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
 			box3.position.set(-1, 0, 0);
 			slotlock.add(box3);
 
-			let box4 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ color: 'yellow', visible: false }));
+			let box4 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
 			box4.position.set(0, 0, -1);
 			slotlock.add(box4);
 
@@ -83,17 +70,12 @@
 				});
 			});
 
-
-
 			app.anchor.add(slotlock, button, button2);
 			slotlock.position.set(position.x, position.y, position.z);
 			slotlock.visible = false;
 			slotlock.traverse(child => {
 				child.visible = slotlock.visible;
 			});
-		}
-		function animate() {
-			onAnimationFrame
 		}
 
 		//Initialize vertex lighting
@@ -107,15 +89,13 @@
 			'clearglassmeshes': { url: 'assets/clearglassmeshes.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
 			'squareringblackmetal2': { url: 'assets/squareringblackmetal2.bom?foop', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
 			'squareringred': { url: 'assets/squareringred.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
-			'stageblackmetal': { url: 'assets/stageblackmetal.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
-			'stageblueglow': { url: 'assets/stageblueglow.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
+			'stageblackmetal': { url: 'assets/stageblackmetal.bom', scale: 0.6, position: { x: 0, y: 0, z: -7 } },
+			'stageblueglow': { url: 'assets/stageblueglow.bom', scale: 0.6, position: { x: 0, y: 0, z: -7 } },
 			'standsblackmetal': { url: 'assets/standsblackmetal.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } },
 			'standsblueglow': { url: 'assets/standsblueglow.bom', scale: 0.6, position: { x: 0, y: 0, z: 0 } }
 		};
 
 		altspaceutil.loadAssets(assets).then(loadedAssets => {
-			console.log(loadedAssets);	
-
 			app.anchor.add(loadedAssets['blackmetalmeshes5']);
 			app.anchor.add(loadedAssets['blueglowmeshes2']);
 			app.anchor.add(loadedAssets['clearglassmeshes']);
@@ -124,7 +104,7 @@
 			app.anchor.add(loadedAssets['standsblackmetal']);
 			app.anchor.add(loadedAssets['standsblueglow']);
 
-			// n-mesh-collider
+			// Add Colliders To Stage
 			loadedAssets['standsblackmetal'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
 			loadedAssets['standsblueglow'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
 			loadedAssets['stageblackmetal'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
@@ -164,34 +144,32 @@
 					}
 				});
 			*/
-			
 
 			app.anchor.addBehavior(new class ElapsedTimeTracker {
-			    awake(o) {
-			        elapsedTime = 0;
-			    }
+				awake(o) {
+					elapsedTime = 0;
+				}
 
-			    update(deltaTime) {
-			        elapsedTime += deltaTime;
-			    }
+				update(deltaTime) {
+					elapsedTime += deltaTime;
+				}
 			});
 
 			class SpinBehavior {
-			    constructor(timeOffset,speed,amplitude) {
-			        this.timeOffset = timeOffset;
-			        this.speed = speed;
-			        this.amplitude = amplitude;
-			    }
+				constructor(timeOffset,speed,amplitude) {
+					this.timeOffset = timeOffset;
+					this.speed = speed;
+					this.amplitude = amplitude;
+				}
 
-			    awake(o) {
-			        this.object3d = o;
-			    }
+				awake(o) {
+					this.object3d = o;
+				}
 
-			    update(deltaTime) {
-			        this.object3d.rotation.z = Math.sin((elapsedTime+this.timeOffset)/this.speed)*this.amplitude;
-			    }
+				update(deltaTime) {
+					this.object3d.rotation.z = Math.sin((elapsedTime+this.timeOffset)/this.speed)*this.amplitude;
+				}
 			}
-
 
 			class UserWhitelistRestrictedVolume {
 				constructor(target, whitelistedUserIds) {
@@ -215,7 +193,7 @@
 							if(!skeleton.parent) this.scene.add(skeleton);
 							this.avatar = skeleton.getJoint('Spine');
 
-							this.portal = new Object3D();
+							this.portal = new THREE.Object3D();
 							this.portal.visible = false;
 							this.portal.addBehavior(new altspaceutil.behaviors.NativeComponent('n-portal', {}, { targetEntity: this.target }));
 							document.createElement('a-entity');
@@ -241,15 +219,15 @@
 				}
 			};
 
+			// Add Restricted Zone For Whitelisted Users
 			let kickTarget = new THREE.Object3D();
-			kickTarget.positon.set(0, 0, 0);
+			kickTarget.position.set(0, 0, 0);
 			app.anchor.add(kickTarget);
 
 			let restrictedArea = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ visible: false }));
-			restrictedArea.positon.set(0, 0, 0);
+			restrictedArea.position.set(0, 0, 0);
 			restrictedArea.addBehavior(new UserWhitelistRestrictedVolume(kickTarget, [/* list of userids to whitelist (in per-domain format) */]));
 			app.anchor.add(restrictedArea);
-
 
 			// Create First Ring
 			let redRing = loadedAssets['squareringred'].clone();
@@ -424,7 +402,6 @@
 			skybox.rotation.set(0, THREE.Math.degToRad(180), 0);
 			app.anchor.add(skybox);
 		}
-
 	});
 
 	}).catch(e => console.log(e));

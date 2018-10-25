@@ -365,7 +365,7 @@
 				// Skybox
 				let skybox = new THREE.Mesh(new THREE.SphereBufferGeometry(1000, 32, 32), new THREE.MeshBasicMaterial({ side: THREE.BackSide, map: altspaceutil.loadTexture('assets/Sky_WACOSaber.jpg?1') }));
 				altspaceutil.setCursorCollider(skybox, false);
-				skybox.rotation.set(0, THREE.Math.degToRad(270), 0);
+				skybox.rotation.set(0, THREE.Math.degToRad(90), 0);
 				app.anchor.add(skybox);
 			});
 		});

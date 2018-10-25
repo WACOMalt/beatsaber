@@ -83,7 +83,7 @@
 			});
 
 			app.anchor.add(slotlock, button, button2);
-			slotlock.position.set(position.x, position.y, position.z)
+			slotlock.position.set(position.x, position.y, position.z);
 			slotlock.visible = false;
 			slotlock.traverse(child => {
 				child.visible = slotlock.visible;
@@ -126,6 +126,9 @@
 			loadedAssets['standsblueglow'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
 			loadedAssets['stageblackmetal'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
 			loadedAssets['stageblueglow'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
+
+			createFloorLock(new THREE.Vector3(0, 2.11, 0));
+
 			//app.anchor.add(light);
 
 			//currently broken, Lighting calculate. Needs to run after geometry is added to scene. Not sure how.

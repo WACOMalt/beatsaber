@@ -12,7 +12,7 @@
 			ringTimeOffset = 500;
 			ringSpeed = 0.000025;
 			ringSpinAmplitude = 20;
-			ringSpacing = 100;
+			ringSpacing = 50;
 
 			// Load Stream Display App
 			let streamBrowser = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial({ color: 0xccdd33, transparent: true, opacity: 0.2 }), { visible: false }));
@@ -363,7 +363,7 @@
 				}(app.camera));
 
 				// Skybox
-				let skybox = new THREE.Mesh(new THREE.SphereBufferGeometry(1000, 32, 32), new THREE.MeshBasicMaterial({ side: THREE.BackSide, map: altspaceutil.loadTexture('assets/Sky_WACOSaber.jpg?1') }));
+				let skybox = new THREE.Mesh(new THREE.SphereBufferGeometry(2100, 32, 32), new THREE.MeshBasicMaterial({ side: THREE.BackSide, map: altspaceutil.loadTexture('assets/Sky_WACOSaber.jpg?1') }));
 				altspaceutil.setCursorCollider(skybox, false);
 				skybox.rotation.set(0, THREE.Math.degToRad(90), 0);
 				app.anchor.add(skybox);

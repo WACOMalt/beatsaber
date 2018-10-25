@@ -73,7 +73,7 @@
 			});
 
 			let button2 = new THREE.Mesh(new THREE.BoxBufferGeometry(0.4, 0.4, 0.4), new THREE.MeshBasicMaterial({ color: 'blue' }));
-			button2.position.set(0.0, 1.0, -2.0);
+			button2.position.set(0.0, 1.0, 2.0);
 			button2.position.add(position);
 			altspaceutil.setCursorCollider(button, true);
 			button2.addEventListener('cursordown', event => {
@@ -128,12 +128,12 @@
 			loadedAssets['stageblackmetal'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
 			loadedAssets['stageblueglow'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
 
-			createFloorLock(new THREE.Vector3(1.711619, 2.11, -14));
-			createFloorLock(new THREE.Vector3(5.134856, 2.11, -14));
-			createFloorLock(new THREE.Vector3(8.558093, 2.11, -14));
-			createFloorLock(new THREE.Vector3(-1.711619, 2.11, -14));
-			createFloorLock(new THREE.Vector3(-5.134856, 2.11, -14));
-			createFloorLock(new THREE.Vector3(-8.558093, 2.11, -14));
+			createFloorLock(new THREE.Vector3(1.711619, 2.11, 14));
+			createFloorLock(new THREE.Vector3(5.134856, 2.11, 14));
+			createFloorLock(new THREE.Vector3(8.558093, 2.11, 14));
+			createFloorLock(new THREE.Vector3(-1.711619, 2.11, 14));
+			createFloorLock(new THREE.Vector3(-5.134856, 2.11, 14));
+			createFloorLock(new THREE.Vector3(-8.558093, 2.11, 14));
 
 
 			//app.anchor.add(light);

@@ -1,0 +1,1424 @@
+#! C:/Program Files/Nuke11.1v1/nuke-11.1.1.dll -nx
+#write_info Write1 file:"C:/Users/WACOMalt/Documents/GitHub/beatsaber/assets/Sky_WACOSaber.jpg" format:"6000 3000 1" chans:":rgba.red:rgba.green:rgba.blue:" framerange:"1 100" fps:"0" colorspace:"default (sRGB)" datatype:"8 bit" transfer:"unknown" views:"main" colorManagement:"Nuke"
+version 11.1 v1
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="0" w="1904" h="1121" screen="0">
+        <splitter orientation="1">
+            <split size="40"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="1241" stretch="1"/>
+            <splitter orientation="2">
+                <split size="630"/>
+                <dock id="" activePageId="Viewer.1">
+                    <page id="Viewer.1"/>
+                </dock>
+                <split size="443"/>
+                <dock id="" activePageId="DAG.1" focus="true">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                </dock>
+            </splitter>
+            <split size="615"/>
+            <dock id="" activePageId="Properties.1">
+                <page id="Properties.1"/>
+                <page id="uk.co.thefoundry.backgroundrenderview.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name C:/Users/WACOMalt/Documents/GitHub/beatsaber/assets/skyboxsetup.nk
+ format "6000 3000 0 0 6000 3000 1 asdf"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+ colorManagement Nuke
+ workingSpaceLUT linear
+ monitorLut sRGB
+ int8Lut sRGB
+ int16Lut sRGB
+ logLut Cineon
+ floatLut linear
+}
+Read {
+ inputs 0
+ file C:/Users/WACOMalt/Pictures/thing.PNG
+ format "459 458 0 0 459 458 1 "
+ origset true
+ name Read1
+ xpos -492
+ ypos -118
+}
+Reformat {
+ inputs 0
+ type scale
+ scale {0.3333333333 1}
+ resize height
+ name Reformat6
+ xpos 213
+ ypos 218
+}
+Read {
+ inputs 0
+ file C:/Users/WACOMalt/Documents/GitHub/beatsaber/assets/Sky_EchoAdventureA.jpg
+ format "6000 3000 0 0 6000 3000 1 asdf"
+ origset true
+ name Read2
+ xpos -653
+ ypos 424
+}
+SphericalTransform {
+ input "Lat Long map"
+ out_ry 110
+ fix true
+ name SphericalTransform1
+ xpos -653
+ ypos 510
+}
+Clamp {
+ name Clamp2
+ xpos -653
+ ypos 574
+}
+Colorspace {
+ colorspace_out HSL
+ name Colorspace1
+ xpos -653
+ ypos 618
+}
+Constant {
+ inputs 0
+ channels rgb
+ color {0.004084952641 0.1472356617 0.7103437185 2}
+ color_panelDropped true
+ name Constant1
+ xpos -773
+ ypos 499
+}
+Colorspace {
+ colorspace_out HSL
+ name Colorspace3
+ xpos -773
+ ypos 582
+}
+Copy {
+ inputs 2
+ from0 rgba.blue
+ to0 rgba.blue
+ from1 -rgba.green
+ to1 -rgba.green
+ name Copy1
+ xpos -773
+ ypos 649
+}
+Colorspace {
+ colorspace_in HSL
+ name Colorspace2
+ xpos -773
+ ypos 720
+}
+HueShift {
+ hue_rotation -14
+ name HueShift1
+ xpos -773
+ ypos 760
+}
+Glow2 {
+ brightness 3.46
+ size 47.5
+ mix 0.215
+ name Glow2
+ xpos -773
+ ypos 786
+}
+Sphere {
+ inputs 0
+ rows 100
+ columns 100
+ name Sphere1
+ xpos -268
+ ypos -40
+}
+set Ne4892380 [stack 0]
+Group {
+ name Group3
+ tile_color 0x303030ff
+ note_font_color 0x99ffffff
+ xpos -459
+ ypos 456
+ addUserKnob {20 User}
+ addUserKnob {41 outputtype l "output type" T Expression1.outputtype}
+ addUserKnob {41 textureRes l "texture resolution" T Expression1.textureRes}
+ addUserKnob {41 position l "Position offset" T Expression1.position}
+ addUserKnob {41 scale l "World scale" T Expression1.scale}
+ addUserKnob {41 octaves T Expression1.octaves}
+ addUserKnob {41 lacunarity T Expression1.lacunarity}
+ addUserKnob {41 gain T Expression1.gain}
+ addUserKnob {41 alphatype l "Alpha output" T Expression1.alphatype}
+ addUserKnob {41 premultalpha l "Premult color by output alpha?" -STARTLINE T Expression1.premultalpha}
+ addUserKnob {26 ""}
+ addUserKnob {20 About l "Created by Ben Sumner - expand for info" n 1}
+ About 0
+ addUserKnob {26 description l "" +STARTLINE T "This Gizmo outputs either the input geometry\nwith a 3D world position noise applied as a \ntexture, or it can output the texture itself in \nthe UV space of the model.\n\nYour model must have UVs!\n\nYou can output noise or textured model, \neither with the originally applied alpha, solid \nwhite alpha, or with the generated noise in \nthe alpha channel.\n\nThis node is a good way to get seamless \nnoise textures on your 3D models, or to\nexport a texture to be used for seamless \ndisplacement.\n\ncreated by Ben Sumner\nFeel free to modify and share, just keep \noriginal credit in this description!"}
+ addUserKnob {20 endGroup n -1}
+}
+ Crop {
+  inputs 0
+  box {0 0 {Expression1.textureRes.w} {Expression1.textureRes.h}}
+  reformat true
+  crop false
+  name Crop2
+  xpos 557
+  ypos 313
+ }
+set Nf4677c00 [stack 0]
+ Shuffle {
+  red white
+  green white
+  blue white
+  alpha white
+  name Shuffle4
+  label "<font size = \"5\"> \[value in]"
+  xpos 727
+  ypos 258
+  postage_stamp true
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 1015
+  ypos 180
+ }
+ Dot {
+  name Dot4
+  xpos 1049
+  ypos 227
+ }
+set Nf4677180 [stack 0]
+ ApplyMaterial {
+  inputs 2
+  name ApplyMaterial2
+  xpos 1015
+  ypos 294
+ }
+ Dot {
+  name Dot1
+  xpos 1049
+  ypos 326
+ }
+set Nf4676a80 [stack 0]
+push $Nf4677c00
+add_layer {pos pos.x pos.y pos.z}
+add_layer {normal normal.u normal.v normal.z normal.n}
+ ScanlineRender {
+  inputs 2
+  conservative_shader_sampling false
+  filter Mitchell
+  projection_mode uv
+  shutter 0
+  spatial_jitter 0.1
+  motion_vectors_type distance
+  output_shader_vectors true
+  P_channel pos
+  N_channel normal
+  name ScanlineRender1
+  xpos 676
+  ypos 405
+ }
+ Shuffle {
+  in pos
+  in2 rgba
+  alpha alpha2
+  name Shuffle2
+  label "<font size = \"5\"> \[value in]"
+  xpos 745
+  ypos 443
+  postage_stamp true
+ }
+set Nf4676380 [stack 0]
+ Blur {
+  size 2
+  crop false
+  name Blur2
+  xpos 844
+  ypos 473
+ }
+ Shuffle {
+  black alpha
+  out2 mask
+  name Shuffle7
+  xpos 844
+  ypos 511
+ }
+ Unpremult {
+  channels rgba
+  alpha mask.a
+  name Unpremult1
+  xpos 844
+  ypos 538
+ }
+ Remove {
+  channels mask
+  name Remove1
+  xpos 844
+  ypos 576
+ }
+ Add {
+  channels rgb
+  value {{parent.Expression1.position.x} {parent.Expression1.position.y} {parent.Expression1.position.z} 0}
+  name Add6
+  xpos 844
+  ypos 614
+ }
+ Expression {
+  expr0 (fBm(r*scale.x,g*scale.y,b*scale.z,octaves,lacunarity,gain)/2+0.5)
+  expr1 (fBm(r*scale.x,g*scale.y,b*scale.z,octaves,lacunarity,gain)/2+0.5)
+  expr2 (fBm(r*scale.x,g*scale.y,b*scale.z,octaves,lacunarity,gain)/2+0.5)
+  expr3 (fBm(r*scale.x,g*scale.y,b*scale.z,octaves,lacunarity,gain)/2+0.5)
+  maskChannelInput -rgba.alpha
+  name Expression1
+  xpos 844
+  ypos 640
+  addUserKnob {20 User}
+  addUserKnob {4 outputtype l "output type" M {"UV Texture" "Textured Geometry"}}
+  addUserKnob {14 textureRes l "texture resolution" R 0 100}
+  textureRes {6000 3000}
+  addUserKnob {13 position l "Position offset"}
+  addUserKnob {13 scale l "World scale"}
+  scale {22 {scale.x} {scale.x}}
+  addUserKnob {3 octaves}
+  octaves 12
+  addUserKnob {7 lacunarity R 0 10}
+  lacunarity 2
+  addUserKnob {7 gain}
+  gain 0.6
+  addUserKnob {4 alphatype l "Alpha output" M {Input "Solid white" "Noise output"}}
+  alphatype "Solid white"
+  addUserKnob {6 premultalpha l "Premult color by output alpha?" -STARTLINE}
+ }
+set N8fef4e00 [stack 0]
+ Dot {
+  name Dot3
+  xpos 960
+  ypos 697
+ }
+ Premult {
+  name Premult2
+  xpos 926
+  ypos 734
+  disable {{1-parent.Expression1.premultalpha}}
+ }
+push $N8fef4e00
+ Shuffle {
+  alpha white
+  name Shuffle6
+  xpos 844
+  ypos 694
+ }
+push $Nf4677180
+push $Nf4677c00
+ ScanlineRender {
+  inputs 2
+  conservative_shader_sampling false
+  filter Mitchell
+  projection_mode uv
+  shutter 0
+  spatial_jitter 0.1
+  motion_vectors_type distance
+  output_shader_vectors true
+  P_channel pos
+  N_channel normal
+  name ScanlineRender2
+  xpos 513
+  ypos 375
+ }
+set Nee72bc00 [stack 0]
+push $Nf4676380
+ ShuffleCopy {
+  inputs 2
+  red alpha
+  green alpha
+  blue alpha
+  black alpha2
+  out2 mask
+  name ShuffleCopy1
+  xpos 592
+  ypos 416
+ }
+set Nee72b880 [stack 0]
+ Shuffle {
+  in2 mask
+  alpha red2
+  name Shuffle3
+  xpos 391
+  ypos 446
+ }
+push $Nee72b880
+ Blur {
+  size 2
+  crop false
+  name Blur1
+  xpos 513
+  ypos 443
+ }
+ Unpremult {
+  channels rgba
+  alpha mask.a
+  name Unpremult2
+  xpos 513
+  ypos 497
+ }
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos 391
+  ypos 542
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle5
+  label "<font size = \"5\"> \[value in]"
+  xpos 391
+  ypos 568
+  postage_stamp true
+ }
+push $N8fef4e00
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 752
+  ypos 683
+ }
+ Premult {
+  name Premult1
+  xpos 752
+  ypos 734
+  disable {{1-parent.Expression1.premultalpha}}
+ }
+ Switch {
+  inputs 3
+  which {{Expression1.alphatype}}
+  name Switch2
+  xpos 844
+  ypos 776
+ }
+set Nabbebc00 [stack 0]
+push $Nf4676a80
+ ApplyMaterial {
+  inputs 2
+  name ApplyMaterial1
+  xpos 1015
+  ypos 818
+ }
+push $Nabbebc00
+ Switch {
+  inputs 2
+  which {{Expression1.outputtype}}
+  name Switch1
+  xpos 1015
+  ypos 911
+ }
+ Dot {
+  name Dot5
+  xpos 1049
+  ypos 977
+ }
+ Output {
+  name Output1
+  xpos 1015
+  ypos 1075
+ }
+push $Nee72bc00
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  black alpha
+  out2 mask
+  name Shuffle1
+  xpos 513
+  ypos 397
+ }
+push $Nabbebc00
+ Viewer {
+  frame_range 1001-1047
+  viewerProcess None
+  name Viewer1
+  selected true
+  xpos 701
+  ypos 844
+ }
+end_group
+Grade {
+ gamma 0.435
+ name Grade12
+ xpos -459
+ ypos 520
+}
+Blur {
+ name Blur6
+ xpos -459
+ ypos 546
+}
+push $Ne4892380
+Dot {
+ name Dot4
+ xpos 293
+ ypos 322
+}
+Crop {
+ inputs 0
+ box {0 0 6000 3000}
+ reformat true
+ crop false
+ name Crop2
+ xpos -12
+ ypos 224
+}
+ScanlineRender {
+ inputs 2
+ conservative_shader_sampling false
+ filter Mitchell
+ projection_mode uv
+ shutter 0
+ spatial_jitter 0.1
+ motion_vectors_type distance
+ output_shader_vectors true
+ P_channel pos
+ N_channel normal
+ name ScanlineRender1
+ xpos -158
+ ypos 352
+}
+Shuffle {
+ in pos
+ in2 rgba
+ alpha alpha2
+ name Shuffle2
+ label "<font size = \"5\"> \[value in]"
+ xpos -158
+ ypos 412
+ postage_stamp true
+}
+Multiply {
+ value 0.5
+ name Multiply1
+ xpos -158
+ ypos 522
+}
+Add {
+ value 0.5
+ name Add1
+ xpos -158
+ ypos 570
+}
+Reformat {
+ type scale
+ scale {3 1}
+ resize distort
+ filter Impulse
+ name Reformat3
+ xpos -158
+ ypos 631
+}
+Tile {
+ columns 3
+ filter Impulse
+ name Tile2
+ xpos -158
+ ypos 657
+}
+Clamp {
+ name Clamp1
+ xpos -158
+ ypos 683
+}
+Blur {
+ channels {-rgba.red -rgba.green rgba.blue none}
+ size {400 0}
+ name Blur5
+ xpos -158
+ ypos 736
+}
+Reformat {
+ type scale
+ scale {0.3333333333 1}
+ resize height
+ name Reformat4
+ xpos -158
+ ypos 806
+}
+Grade {
+ white 0.62
+ gamma 0.84
+ name Grade10
+ xpos -158
+ ypos 832
+}
+Rectangle {
+ inputs 0
+ area {-1342.5 940 19080 1820}
+ name Rectangle1
+ xpos -161
+ ypos 229
+}
+Blur {
+ size 200
+ name Blur3
+ xpos -161
+ ypos 255
+}
+Ramp {
+ inputs 0
+ p0 {100 1500}
+ p1 {100 0}
+ type smooth1
+ name Ramp2
+ xpos -515
+ ypos 38
+}
+Grade {
+ channels rgba
+ gamma 3.6
+ name Grade4
+ xpos -515
+ ypos 64
+}
+Ramp {
+ inputs 0
+ p0 {100 1500}
+ p1 {100 3000}
+ type smooth1
+ name Ramp3
+ xpos -608
+ ypos 69
+}
+Grade {
+ channels rgba
+ white 1.36
+ gamma 5
+ name Grade5
+ xpos -608
+ ypos 123
+}
+Merge2 {
+ inputs 2
+ operation plus
+ name Merge1
+ xpos -515
+ ypos 123
+}
+Blur {
+ size {0 100}
+ name Blur4
+ xpos -515
+ ypos 149
+}
+set Ne4933180 [stack 0]
+push $Ne4892380
+Group {
+ name Group2
+ tile_color 0x303030ff
+ note_font_color 0x99ffffff
+ xpos -373
+ ypos 39
+ addUserKnob {20 User}
+ addUserKnob {41 outputtype l "output type" T Expression1.outputtype}
+ addUserKnob {41 textureRes l "texture resolution" T Expression1.textureRes}
+ addUserKnob {41 position l "Position offset" T Expression1.position}
+ addUserKnob {41 scale l "World scale" T Expression1.scale}
+ addUserKnob {41 octaves T Expression1.octaves}
+ addUserKnob {41 lacunarity T Expression1.lacunarity}
+ addUserKnob {41 gain T Expression1.gain}
+ addUserKnob {41 alphatype l "Alpha output" T Expression1.alphatype}
+ addUserKnob {41 premultalpha l "Premult color by output alpha?" -STARTLINE T Expression1.premultalpha}
+ addUserKnob {26 ""}
+ addUserKnob {20 About l "Created by Ben Sumner - expand for info" n 1}
+ About 0
+ addUserKnob {26 description l "" +STARTLINE T "This Gizmo outputs either the input geometry\nwith a 3D world position noise applied as a \ntexture, or it can output the texture itself in \nthe UV space of the model.\n\nYour model must have UVs!\n\nYou can output noise or textured model, \neither with the originally applied alpha, solid \nwhite alpha, or with the generated noise in \nthe alpha channel.\n\nThis node is a good way to get seamless \nnoise textures on your 3D models, or to\nexport a texture to be used for seamless \ndisplacement.\n\ncreated by Ben Sumner\nFeel free to modify and share, just keep \noriginal credit in this description!"}
+ addUserKnob {20 endGroup n -1}
+}
+ Crop {
+  inputs 0
+  box {0 0 {Expression1.textureRes.w} {Expression1.textureRes.h}}
+  reformat true
+  crop false
+  name Crop2
+  selected true
+  xpos 560
+  ypos 313
+ }
+set Ne4932e00 [stack 0]
+ Shuffle {
+  red white
+  green white
+  blue white
+  alpha white
+  name Shuffle4
+  label "<font size = \"5\"> \[value in]"
+  selected true
+  xpos 727
+  ypos 258
+  postage_stamp true
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 1015
+  ypos 14
+ }
+ Dot {
+  name Dot4
+  selected true
+  xpos 1049
+  ypos 227
+ }
+set Ne4932380 [stack 0]
+ ApplyMaterial {
+  inputs 2
+  name ApplyMaterial2
+  selected true
+  xpos 1015
+  ypos 294
+ }
+ Dot {
+  name Dot1
+  selected true
+  xpos 1049
+  ypos 326
+ }
+set Ne4933c00 [stack 0]
+push $Ne4932e00
+ ScanlineRender {
+  inputs 2
+  conservative_shader_sampling false
+  filter Mitchell
+  projection_mode uv
+  shutter 0
+  spatial_jitter 0.1
+  motion_vectors_type distance
+  output_shader_vectors true
+  P_channel pos
+  N_channel normal
+  name ScanlineRender1
+  selected true
+  xpos 679
+  ypos 405
+ }
+ Shuffle {
+  in pos
+  in2 rgba
+  alpha alpha2
+  name Shuffle2
+  label "<font size = \"5\"> \[value in]"
+  selected true
+  xpos 748
+  ypos 443
+  postage_stamp true
+ }
+set N98043c00 [stack 0]
+ Blur {
+  size 2
+  crop false
+  name Blur2
+  xpos 844
+  ypos 473
+ }
+ Shuffle {
+  black alpha
+  out2 mask
+  name Shuffle7
+  xpos 844
+  ypos 511
+ }
+ Unpremult {
+  channels rgba
+  alpha mask.a
+  name Unpremult1
+  xpos 844
+  ypos 538
+ }
+ Remove {
+  channels mask
+  name Remove1
+  xpos 844
+  ypos 576
+ }
+ Add {
+  channels rgb
+  value {{parent.Expression1.position.x} {parent.Expression1.position.y} {parent.Expression1.position.z} 0}
+  name Add6
+  xpos 844
+  ypos 614
+ }
+ Expression {
+  expr0 (fBm(r*scale.x,g*scale.y,b*scale.z,octaves,lacunarity,gain)/2+0.5)
+  expr1 (fBm(r*scale.x,g*scale.y,b*scale.z,octaves,lacunarity,gain)/2+0.5)
+  expr2 (fBm(r*scale.x,g*scale.y,b*scale.z,octaves,lacunarity,gain)/2+0.5)
+  expr3 (fBm(r*scale.x,g*scale.y,b*scale.z,octaves,lacunarity,gain)/2+0.5)
+  maskChannelInput -rgba.alpha
+  name Expression1
+  xpos 844
+  ypos 640
+  addUserKnob {20 User}
+  addUserKnob {4 outputtype l "output type" M {"UV Texture" "Textured Geometry"}}
+  addUserKnob {14 textureRes l "texture resolution" R 0 100}
+  textureRes {6000 3000}
+  addUserKnob {13 position l "Position offset"}
+  position {12 2 15}
+  addUserKnob {13 scale l "World scale"}
+  scale {4 8 4}
+  addUserKnob {3 octaves}
+  octaves 10
+  addUserKnob {7 lacunarity R 0 10}
+  lacunarity 1.6
+  addUserKnob {7 gain}
+  gain 0.585
+  addUserKnob {4 alphatype l "Alpha output" M {Input "Solid white" "Noise output"}}
+  alphatype "Solid white"
+  addUserKnob {6 premultalpha l "Premult color by output alpha?" -STARTLINE}
+ }
+set N98042700 [stack 0]
+ Dot {
+  name Dot3
+  xpos 960
+  ypos 697
+ }
+ Premult {
+  name Premult2
+  xpos 926
+  ypos 734
+  disable {{1-parent.Expression1.premultalpha}}
+ }
+push $N98042700
+ Shuffle {
+  alpha white
+  name Shuffle6
+  xpos 844
+  ypos 694
+ }
+push $Ne4932380
+push $Ne4932e00
+ ScanlineRender {
+  inputs 2
+  conservative_shader_sampling false
+  filter Mitchell
+  projection_mode uv
+  shutter 0
+  spatial_jitter 0.1
+  motion_vectors_type distance
+  output_shader_vectors true
+  P_channel pos
+  N_channel normal
+  name ScanlineRender2
+  xpos 513
+  ypos 375
+ }
+set N98075500 [stack 0]
+push $N98043c00
+ ShuffleCopy {
+  inputs 2
+  red alpha
+  green alpha
+  blue alpha
+  black alpha2
+  out2 mask
+  name ShuffleCopy1
+  xpos 593
+  ypos 417
+ }
+set N98075180 [stack 0]
+ Shuffle {
+  in2 mask
+  alpha red2
+  name Shuffle3
+  xpos 391
+  ypos 446
+ }
+push $N98075180
+ Blur {
+  size 2
+  crop false
+  name Blur1
+  xpos 513
+  ypos 443
+ }
+ Unpremult {
+  channels rgba
+  alpha mask.a
+  name Unpremult2
+  xpos 513
+  ypos 497
+ }
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos 391
+  ypos 542
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle5
+  label "<font size = \"5\"> \[value in]"
+  xpos 391
+  ypos 568
+  postage_stamp true
+ }
+push $N98042700
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 752
+  ypos 683
+ }
+ Premult {
+  name Premult1
+  xpos 752
+  ypos 734
+  disable {{1-parent.Expression1.premultalpha}}
+ }
+ Switch {
+  inputs 3
+  which {{Expression1.alphatype}}
+  name Switch2
+  xpos 844
+  ypos 776
+ }
+set N980b7500 [stack 0]
+push $Ne4933c00
+ ApplyMaterial {
+  inputs 2
+  name ApplyMaterial1
+  xpos 1015
+  ypos 818
+ }
+push $N980b7500
+ Switch {
+  inputs 2
+  which {{Expression1.outputtype}}
+  name Switch1
+  xpos 1015
+  ypos 911
+ }
+ Dot {
+  name Dot5
+  xpos 1049
+  ypos 977
+ }
+ Output {
+  name Output1
+  xpos 1015
+  ypos 1075
+ }
+push $N98075500
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  black alpha
+  out2 mask
+  name Shuffle1
+  xpos 513
+  ypos 397
+ }
+push $N98043c00
+ Viewer {
+  frame_range 100-100
+  viewerProcess None
+  name Viewer1
+  xpos 701
+  ypos 844
+ }
+end_group
+Grade {
+ white {0.06500001252 0.3825694919 0.6499999762 1}
+ gamma 0.475
+ name Grade2
+ xpos -373
+ ypos 78
+}
+Grade {
+ inputs 1+1
+ white 0.92
+ multiply 0.66
+ gamma {0.4 0.69 0.51 0.51}
+ name Grade3
+ xpos -373
+ ypos 119
+}
+push $Ne4933180
+push $Ne4892380
+Group {
+ name Group1
+ tile_color 0x303030ff
+ note_font_color 0x99ffffff
+ xpos -268
+ ypos 39
+ addUserKnob {20 User}
+ addUserKnob {41 outputtype l "output type" T Expression1.outputtype}
+ addUserKnob {41 textureRes l "texture resolution" T Expression1.textureRes}
+ addUserKnob {41 position l "Position offset" T Expression1.position}
+ addUserKnob {41 scale l "World scale" T Expression1.scale}
+ addUserKnob {41 octaves T Expression1.octaves}
+ addUserKnob {41 lacunarity T Expression1.lacunarity}
+ addUserKnob {41 gain T Expression1.gain}
+ addUserKnob {41 alphatype l "Alpha output" T Expression1.alphatype}
+ addUserKnob {41 premultalpha l "Premult color by output alpha?" -STARTLINE T Expression1.premultalpha}
+ addUserKnob {26 ""}
+ addUserKnob {20 About l "Created by Ben Sumner - expand for info" n 1}
+ About 0
+ addUserKnob {26 description l "" +STARTLINE T "This Gizmo outputs either the input geometry\nwith a 3D world position noise applied as a \ntexture, or it can output the texture itself in \nthe UV space of the model.\n\nYour model must have UVs!\n\nYou can output noise or textured model, \neither with the originally applied alpha, solid \nwhite alpha, or with the generated noise in \nthe alpha channel.\n\nThis node is a good way to get seamless \nnoise textures on your 3D models, or to\nexport a texture to be used for seamless \ndisplacement.\n\ncreated by Ben Sumner\nFeel free to modify and share, just keep \noriginal credit in this description!"}
+ addUserKnob {20 endGroup n -1}
+}
+ Crop {
+  inputs 0
+  box {0 0 {Expression1.textureRes.w} {Expression1.textureRes.h}}
+  reformat true
+  crop false
+  name Crop2
+  xpos 557
+  ypos 313
+ }
+set N980f7880 [stack 0]
+ Shuffle {
+  red white
+  green white
+  blue white
+  alpha white
+  name Shuffle4
+  label "<font size = \"5\"> \[value in]"
+  xpos 727
+  ypos 258
+  postage_stamp true
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 1015
+  ypos 180
+ }
+ Dot {
+  name Dot4
+  xpos 1049
+  ypos 227
+ }
+set N980f6e00 [stack 0]
+ ApplyMaterial {
+  inputs 2
+  name ApplyMaterial2
+  xpos 1015
+  ypos 294
+ }
+ Dot {
+  name Dot1
+  xpos 1049
+  ypos 326
+ }
+set N980f6700 [stack 0]
+push $N980f7880
+ ScanlineRender {
+  inputs 2
+  conservative_shader_sampling false
+  filter Mitchell
+  projection_mode uv
+  shutter 0
+  spatial_jitter 0.1
+  motion_vectors_type distance
+  output_shader_vectors true
+  P_channel pos
+  N_channel normal
+  name ScanlineRender1
+  xpos 676
+  ypos 405
+ }
+ Shuffle {
+  in pos
+  in2 rgba
+  alpha alpha2
+  name Shuffle2
+  label "<font size = \"5\"> \[value in]"
+  xpos 745
+  ypos 443
+  postage_stamp true
+ }
+set N980f6000 [stack 0]
+ Blur {
+  size 2
+  crop false
+  name Blur2
+  xpos 844
+  ypos 473
+ }
+ Shuffle {
+  black alpha
+  out2 mask
+  name Shuffle7
+  xpos 844
+  ypos 511
+ }
+ Unpremult {
+  channels rgba
+  alpha mask.a
+  name Unpremult1
+  xpos 844
+  ypos 538
+ }
+ Remove {
+  channels mask
+  name Remove1
+  xpos 844
+  ypos 576
+ }
+ Add {
+  channels rgb
+  value {{parent.Expression1.position.x} {parent.Expression1.position.y} {parent.Expression1.position.z} 0}
+  name Add6
+  xpos 844
+  ypos 614
+ }
+ Expression {
+  expr0 (fBm(r*scale.x,g*scale.y,b*scale.z,octaves,lacunarity,gain)/2+0.5)
+  expr1 (fBm(r*scale.x,g*scale.y,b*scale.z,octaves,lacunarity,gain)/2+0.5)
+  expr2 (fBm(r*scale.x,g*scale.y,b*scale.z,octaves,lacunarity,gain)/2+0.5)
+  expr3 (fBm(r*scale.x,g*scale.y,b*scale.z,octaves,lacunarity,gain)/2+0.5)
+  maskChannelInput -rgba.alpha
+  name Expression1
+  xpos 844
+  ypos 640
+  addUserKnob {20 User}
+  addUserKnob {4 outputtype l "output type" M {"UV Texture" "Textured Geometry"}}
+  addUserKnob {14 textureRes l "texture resolution" R 0 100}
+  textureRes {6000 3000}
+  addUserKnob {13 position l "Position offset"}
+  addUserKnob {13 scale l "World scale"}
+  scale {4 {scale.x} {scale.x}}
+  addUserKnob {3 octaves}
+  octaves 10
+  addUserKnob {7 lacunarity R 0 10}
+  lacunarity 2
+  addUserKnob {7 gain}
+  gain 0.5
+  addUserKnob {4 alphatype l "Alpha output" M {Input "Solid white" "Noise output"}}
+  alphatype "Solid white"
+  addUserKnob {6 premultalpha l "Premult color by output alpha?" -STARTLINE}
+ }
+set N98266a80 [stack 0]
+ Dot {
+  name Dot3
+  xpos 960
+  ypos 697
+ }
+ Premult {
+  name Premult2
+  xpos 926
+  ypos 734
+  disable {{1-parent.Expression1.premultalpha}}
+ }
+push $N98266a80
+ Shuffle {
+  alpha white
+  name Shuffle6
+  xpos 844
+  ypos 694
+ }
+push $N980f6e00
+push $N980f7880
+ ScanlineRender {
+  inputs 2
+  conservative_shader_sampling false
+  filter Mitchell
+  projection_mode uv
+  shutter 0
+  spatial_jitter 0.1
+  motion_vectors_type distance
+  output_shader_vectors true
+  P_channel pos
+  N_channel normal
+  name ScanlineRender2
+  xpos 513
+  ypos 375
+ }
+set N98297880 [stack 0]
+push $N980f6000
+ ShuffleCopy {
+  inputs 2
+  red alpha
+  green alpha
+  blue alpha
+  black alpha2
+  out2 mask
+  name ShuffleCopy1
+  xpos 592
+  ypos 416
+ }
+set N98297500 [stack 0]
+ Shuffle {
+  in2 mask
+  alpha red2
+  name Shuffle3
+  xpos 391
+  ypos 446
+ }
+push $N98297500
+ Blur {
+  size 2
+  crop false
+  name Blur1
+  xpos 513
+  ypos 443
+ }
+ Unpremult {
+  channels rgba
+  alpha mask.a
+  name Unpremult2
+  xpos 513
+  ypos 497
+ }
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos 391
+  ypos 542
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle5
+  label "<font size = \"5\"> \[value in]"
+  xpos 391
+  ypos 568
+  postage_stamp true
+ }
+push $N98266a80
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 752
+  ypos 683
+ }
+ Premult {
+  name Premult1
+  xpos 752
+  ypos 734
+  disable {{1-parent.Expression1.premultalpha}}
+ }
+ Switch {
+  inputs 3
+  which {{Expression1.alphatype}}
+  name Switch2
+  xpos 844
+  ypos 776
+ }
+set N982dd880 [stack 0]
+push $N980f6700
+ ApplyMaterial {
+  inputs 2
+  name ApplyMaterial1
+  xpos 1015
+  ypos 818
+ }
+push $N982dd880
+ Switch {
+  inputs 2
+  which {{Expression1.outputtype}}
+  name Switch1
+  xpos 1015
+  ypos 911
+ }
+ Dot {
+  name Dot5
+  xpos 1049
+  ypos 977
+ }
+ Output {
+  name Output1
+  xpos 1015
+  ypos 1075
+ }
+push $N98297880
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  black alpha
+  out2 mask
+  name Shuffle1
+  xpos 513
+  ypos 397
+ }
+push $N982dd880
+ Viewer {
+  frame_range 1001-1047
+  viewerProcess None
+  name Viewer1
+  selected true
+  xpos 701
+  ypos 844
+ }
+end_group
+Grade {
+ white {0.04800001159 0.1976488233 0.4799999893 1}
+ gamma 0.67
+ name Grade1
+ xpos -268
+ ypos 91
+}
+Grade {
+ inputs 1+1
+ white 0
+ multiply 0
+ gamma 0.2
+ name Grade6
+ xpos -268
+ ypos 123
+}
+Merge2 {
+ inputs 2
+ operation plus
+ name Merge2
+ xpos -316
+ ypos 180
+}
+Reformat {
+ type scale
+ scale {3 1}
+ resize distort
+ filter Impulse
+ name Reformat1
+ xpos -316
+ ypos 206
+}
+Tile {
+ columns 3
+ filter Impulse
+ name Tile1
+ xpos -316
+ ypos 232
+}
+Blur {
+ size {35.5 0}
+ mix 0.08
+ name Blur1
+ xpos -316
+ ypos 258
+}
+Blur {
+ inputs 1+1
+ size {0 30}
+ mix 0.68
+ name Blur2
+ xpos -316
+ ypos 296
+}
+Glow2 {
+ name Glow1
+ xpos -316
+ ypos 334
+}
+Grade {
+ white 0.2
+ name Grade7
+ xpos -316
+ ypos 360
+}
+Reformat {
+ type scale
+ scale {0.3333333333 1}
+ resize height
+ name Reformat2
+ xpos -316
+ ypos 386
+}
+Grade {
+ inputs 1+1
+ white 52
+ maskChannelMask rgba.blue
+ name Grade8
+ xpos -316
+ ypos 440
+}
+Shuffle {
+ name Shuffle1
+ xpos -316
+ ypos 488
+}
+Grade {
+ white 0.29
+ name Grade9
+ xpos -316
+ ypos 530
+}
+Grade {
+ inputs 1+1
+ white 1.08
+ multiply 2.25
+ gamma {0.54 0.74 0.74 0.64}
+ maskChannelMask rgba.blue
+ name Grade11
+ xpos -316
+ ypos 588
+}
+Merge2 {
+ inputs 2
+ operation plus
+ mix 0.305
+ name Merge3
+ xpos -509
+ ypos 740
+}
+set Nb3f0d880 [stack 0]
+Sphere {
+ rows 100
+ columns 100
+ radius 100
+ name Sphere2
+ xpos -509
+ ypos 797
+}
+push $Nb3f0d880
+Grade {
+ white 0.24
+ name Grade13
+ xpos -446
+ ypos 787
+}
+set N985ce700 [stack 0]
+Viewer {
+ frame 1
+ frame_range 1-100
+ colour_sample_bbox {-0.9533333182 -0.04699999839 -0.9530000091 -0.04666666687}
+ samplepoints {{-0.9666666389 -0.05200000107}
+   }
+ name Viewer1
+ xpos -874
+ ypos 556
+}
+push $N985ce700
+Write {
+ file C:/Users/WACOMalt/Documents/GitHub/beatsaber/assets/Sky_WACOSaber.jpg
+ file_type jpeg
+ _jpeg_quality 1
+ _jpeg_sub_sampling 4:4:4
+ checkHashOnRead false
+ version 10
+ name Write1
+ selected true
+ xpos -379
+ ypos 839
+}

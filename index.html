@@ -93,8 +93,8 @@
 		}
 		createFloorLock();
 		//Initialize vertex lighting
-		let lighting  = new Lighting();
-		let light = new THREE.PointLight( 0xff0000, 1, 100 )
+		//let lighting  = new Lighting();
+		//let light = new THREE.PointLight( 0xff0000, 1, 100 )
 
 		// Create Space Environment
 		let assets = {
@@ -146,6 +146,12 @@
 				});
 			*/
 			
+			// n-mesh-collider
+			loadedAssets['standsblackmetal'].addBehaviors(
+				new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }),
+				new altspaceutil.behaviors.NativeComponent('n-text', { text: 'n-mesh-collider', height: 4, fontSize: 4, verticalAlign: 'top' })
+			);
+
 			app.anchor.addBehavior(new class ElapsedTimeTracker {
 			    awake(o) {
 			        elapsedTime = 0;

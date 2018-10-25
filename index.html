@@ -51,7 +51,7 @@
 			slotlock.add(box1);
 
 			let box2 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ color: 'blue', visible: false }));
-			box2.position.set(0, 0, +1);
+			box2.position.set(0, 0, 1);
 			slotlock.add(box2);
 
 			let box3 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ color: 'green', visible: false }));
@@ -82,6 +82,8 @@
 					child.visible = slotlock.visible;
 				});
 			});
+
+
 
 			app.anchor.add(slotlock, button, button2);
 			slotlock.position.set(position.x, position.y, position.z);
@@ -189,6 +191,65 @@
 			        this.object3d.rotation.z = Math.sin((elapsedTime+this.timeOffset)/this.speed)*this.amplitude;
 			    }
 			}
+
+
+			class UserWhitelistRestrictedVolume {
+				constructor(target, whitelistedUserIds) {
+					this.target = target;
+					this.userids = whitelistedUserIds || [];
+					this.enabled = true;
+				}
+
+				awake(o, s) {
+					this.loading = true;
+					this.scene = s;
+					this.object3d = o;
+
+					Promise.all([altspace.getUser(), altspace.getThreeJSTrackingSkeleton()]).then(resolvers => {
+						let [user, skeleton] = resolvers;
+
+						if(this.loading) {
+							this.loading = false;
+							this.user = user;
+
+							if(!skeleton.parent) this.scene.add(skeleton);
+							this.avatar = skeleton.getJoint('Spine');
+
+							this.portal = new Object3D();
+							this.portal.visible = false;
+							this.portal.addBehavior(new altspaceutil.behaviors.NativeComponent('n-portal', {}, { targetEntity: this.target }));
+							document.createElement('a-entity');
+							self.el.sceneEl.appendChild(self.portal);
+
+							this.box = new THREE.Box3();
+						}
+					});
+				}
+
+				update(deltaTime) {
+					if(this.box) {
+						this.box.setFromObject(this.object3d);
+						this.portal.position.copy(this.avatar.position);
+
+						let isWhitelistedUser = (!this.enabled || this.user.isModerator || (this.userids.length > 0 && this.userids.indexOf(this.user.userId) >= 0));
+						this.portal.visible = (!isWhitelistedUser && this.avatar && this.box.containsPoint(this.avatar.position));
+					}
+				}
+
+				dispose() {
+					if(this.loading) this.loading = false;
+				}
+			};
+
+			let kickTarget = new THREE.Object3D();
+			kickTarget.positon.set(0, 0, 0);
+			app.anchor.add(kickTarget);
+
+			let restrictedArea = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ visible: false }));
+			restrictedArea.positon.set(0, 0, 0);
+			restrictedArea.addBehavior(new UserWhitelistRestrictedVolume(kickTarget, [/* list of userids to whitelist (in per-domain format) */]));
+			app.anchor.add(restrictedArea);
+
 
 			// Create First Ring
 			let redRing = loadedAssets['squareringred'].clone();

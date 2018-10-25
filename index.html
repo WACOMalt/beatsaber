@@ -92,7 +92,7 @@
 		function animate() {
 			onAnimationFrame
 		}
-		createFloorLock();
+
 		//Initialize vertex lighting
 		//let lighting  = new Lighting();
 		//let light = new THREE.PointLight( 0xff0000, 1, 100 )
@@ -127,7 +127,13 @@
 			loadedAssets['stageblackmetal'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
 			loadedAssets['stageblueglow'].addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
 
-			createFloorLock(new THREE.Vector3(0, 2.11, 0));
+			createFloorLock(new THREE.Vector3(1.711619, 2.11, -14));
+			createFloorLock(new THREE.Vector3(5.134856, 2.11, -14));
+			createFloorLock(new THREE.Vector3(8.558093, 2.11, -14));
+			createFloorLock(new THREE.Vector3(-1.711619, 2.11, -14));
+			createFloorLock(new THREE.Vector3(-5.134856, 2.11, -14));
+			createFloorLock(new THREE.Vector3(-8.558093, 2.11, -14));
+
 
 			//app.anchor.add(light);
 

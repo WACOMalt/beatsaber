@@ -183,7 +183,7 @@
 					update(deltaTime) {
 						if(this.box) {
 							this.box.setFromObject(this.object3d);
-							this.portal.position.copy(this.avatar.position);
+							if(altspace.inClient) {this.portal.position.copy(this.avatar.position);}
 
 							let isWhitelistedUser = (!this.enabled || this.user.isModerator || (this.userids.length > 0 && this.userids.indexOf(this.user.userId) >= 0));
 							this.portal.visible = (!isWhitelistedUser && this.avatar && this.box.containsPoint(this.avatar.position));

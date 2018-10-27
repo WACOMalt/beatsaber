@@ -371,7 +371,10 @@
 				skybox.rotation.set(0, THREE.Math.degToRad(90), 0);
 				app.anchor.add(skybox);
 
-				let laserBase = new THREE.Mesh(new THREE.BoxBufferGeometry(0.25, 100, 0.25), new THREE.MeshBasicMaterial({ color: 'blue', transparent: true, opacity: 0.5 }));
+				let laserBase = new THREE.Object3D;
+				let laser1 = new THREE.Mesh(new THREE.BoxBufferGeometry(0.25, 100, 0.25), new THREE.MeshBasicMaterial({ color: 'blue', transparent: true, opacity: 0.5 }));
+				laserBase.add(laser1);
+				laser1.position.add(new THREE.Vector3(0,50,0));
 				app.anchor.add(laserBase);
 			});
 		});

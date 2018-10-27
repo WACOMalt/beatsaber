@@ -375,6 +375,7 @@
 				let laser1 = new THREE.Mesh(new THREE.BoxBufferGeometry(0.25, 100, 0.25), new THREE.MeshBasicMaterial({ color: 'blue', transparent: true, opacity: 0.5 }));
 				laserBase.add(laser1);
 				laser1.position.add(new THREE.Vector3(0,50,0));
+				laserBase.position.set(0, 0, 1600);
 				app.anchor.add(laserBase);
 			});
 		});

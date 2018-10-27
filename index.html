@@ -159,8 +159,8 @@
 					}
 
 					update(deltaTime) {
-						this.object3d.rotation.x = Math.sin((elapsedTime+this.timeOffset)/this.speed)*this.amplitude;
-						this.object3d.rotation.y = -1 * (Math.cos((elapsedTime+this.timeOffset)/this.speed)*this.amplitude);
+						this.object3d.rotation.x = Math.sin((elapsedTime+this.timeOffset)*this.speed)*this.amplitude;
+						this.object3d.rotation.y = -1 * Math.cos((elapsedTime+this.timeOffset)*this.speed)*this.amplitude;
 					}
 				}
 
@@ -394,7 +394,7 @@
 				laser1.position.add(new THREE.Vector3(0, 0,-1600));
 				laserBase.position.add(new THREE.Vector3(0, 3, 0));
 				laserBase.rotation.set(0, 0, 0);
-				laserBase.addBehavior(new LaserRotation(0, 0.0000000000000000000001, 1));
+				laserBase.addBehavior(new LaserRotation(0, 0.0001, 1));
 				app.anchor.add(laserBase);
 			});
 		});

@@ -394,7 +394,7 @@
 				laser1.position.add(new THREE.Vector3(0, 0,-1600));
 				laserBase.position.add(new THREE.Vector3(0, 0, 1600));
 				laserBase.rotation.set(0, 0, 0);
-				laserBase.addBehavior(new LaserRotation(0, 0.001, 0.05));
+				laserBase.addBehavior(new LaserRotation(, 0.002, 0.1));
 				app.anchor.add(laserBase);
 			});
 		});

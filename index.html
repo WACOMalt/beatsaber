@@ -147,6 +147,23 @@
 					}
 				}
 
+				class LaserRotation {
+					constructor(timeOffset,speed,amplitude) {
+						this.timeOffset = timeOffset;
+						this.speed = speed;
+						this.amplitude = amplitude;
+					}
+
+					awake(o) {
+						this.object3d = o;
+					}
+
+					update(deltaTime) {
+						this.object3d.rotation.x = Math.sin((elapsedTime+this.timeOffset)/this.speed)*this.amplitude;
+						this.object3d.rotation.y = Math.cos((elapsedTime+this.timeOffset)/this.speed)*this.amplitude;
+					}
+				}
+
 				class UserWhitelistRestrictedVolume {
 					constructor(target, whitelistedUserIds) {
 						this.target = target;
@@ -370,14 +387,15 @@
 				altspaceutil.setCursorCollider(skybox, false);
 				skybox.rotation.set(0, THREE.Math.degToRad(90), 0);
 				app.anchor.add(skybox);
-				/*
+				
 				let laserBase = new THREE.Object3D;
 				let laser1 = new THREE.Mesh(new THREE.BoxBufferGeometry(0.25, 0.25, 3200), new THREE.MeshBasicMaterial({ color: 'blue', transparent: true, opacity: 0.5 }));
 				laserBase.add(laser1);
 				laser1.position.add(new THREE.Vector3(0, 0,-1600));
 				laserBase.position.add(new THREE.Vector3(0, 0, 1600));
 				laserBase.rotation.set(0, 0, 0);
-				app.anchor.add(laserBase); */
+				laserBase.addBehavior(new SpinBehavior(0, 2, 2));
+				app.anchor.add(laserBase);
 			});
 		});
 	}).catch(e => console.log(e));

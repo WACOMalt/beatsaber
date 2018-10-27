@@ -372,7 +372,7 @@
 							document.body.removeEventListener('mouseup', this.onMouseUp, false);
 
 							if(this.isPointerLocked()) document.exitPointerLock();
-
+ 
 							document.removeEventListener('pointerlockchange', this.onPointerLockChange, false);
 							document.removeEventListener('mozpointerlockchange', this.onPointerLockChange, false);
 							document.removeEventListener('webkitpointerlockchange', this.onPointerLockChange, false);
@@ -388,6 +388,7 @@
 				skybox.rotation.set(0, THREE.Math.degToRad(90), 0);
 				app.anchor.add(skybox);
 				
+				//laser test
 				let laserBase = new THREE.Object3D;
 				let laser1 = new THREE.Mesh(new THREE.BoxBufferGeometry(0.25, 0.25, 3200), new THREE.MeshBasicMaterial({ color: 'blue', transparent: true, opacity: 0.5 }));
 				laserBase.add(laser1);

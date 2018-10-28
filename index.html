@@ -8,11 +8,11 @@
 			let isWhitelistedUser = (user.isModerator || (whitelistedUserIds.length > 0 && whitelistedUserIds.indexOf(user.userId) >= 0));
 
 			elapsedTime = 0;
-			numRings = 20;
+			numRings = 40;
 			ringTimeOffset = 500;
 			ringSpeed = 0.0001;
 			ringSpinAmplitude = 5;
-			ringSpacing = 75;
+			ringSpacing = 37.5;
 
 			// Load Stream Display App
 			let streamBrowser = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial({ color: 0xccdd33, transparent: true, opacity: 0.2 }), { visible: false }));

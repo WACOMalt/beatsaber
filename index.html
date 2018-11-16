@@ -8,11 +8,11 @@
 			let isWhitelistedUser = (user.isModerator || (whitelistedUserIds.length > 0 && whitelistedUserIds.indexOf(user.userId) >= 0));
 
 			elapsedTime = 0;
-			numRings = 20;
+			numRings = 40;
 			ringTimeOffset = 500;
 			ringSpeed = 0.0001;
 			ringSpinAmplitude = 5;
-			ringSpacing = 75;
+			ringSpacing = 37.5;
 
 			// Load Stream Display App
 			let streamBrowser = new THREE.Mesh(new THREE.BoxBufferGeometry(5, 5, 5), Object.assign(new THREE.MeshBasicMaterial({ color: 0xccdd33, transparent: true, opacity: 0.2 }), { visible: false }));
@@ -389,6 +389,7 @@
 				app.anchor.add(skybox);
 				
 				//laser test
+				/*
 				let laserBase = new THREE.Object3D;
 				let laser1 = new THREE.Mesh(new THREE.BoxBufferGeometry(0.25, 0.25, 3200), new THREE.MeshBasicMaterial({ color: 'blue', transparent: true, opacity: 0.5 }));
 				laserBase.add(laser1);
@@ -396,7 +397,7 @@
 				laserBase.position.add(new THREE.Vector3(0, 0, 1600));
 				laserBase.rotation.set(0, 0, 0);
 				laserBase.addBehavior(new LaserRotation(0, 0.002, 0.1));
-				app.anchor.add(laserBase);
+				app.anchor.add(laserBase);*/
 			});
 		});
 	}).catch(e => console.log(e));

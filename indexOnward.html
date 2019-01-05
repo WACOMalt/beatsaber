@@ -16,11 +16,11 @@
 				stageLock.addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false }));
 				app.anchor.add(stageLock);
 
-				let box1 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
-				box1.position.set(0, 0, 0);
-				box1.scale.set(10,10,10)
+				let box1 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ visible: false }));
+				box1.position.set(-59.49, 5.51, -57.14);
+				box1.scale.set(17.94579,38.66379,24.84183)
 				stageLock.add(box1);
-				box1.addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
+				box1.addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: true, type: 'environment' }, { recursiveMesh: true }));
 
 				app.anchor.add(stageLock);
 				stageLock.position.set(position.x, position.y, position.z);

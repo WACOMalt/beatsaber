@@ -9,22 +9,17 @@
 
 			elapsedTime = 0;
 
-			function createStageLock(position) {
+			function createStageLock() {
 				// Create Floor Locks To Keep Player In Place
-				let stageLock = new THREE.Group();
+				let stageLock = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ visible: false }));
 				altspaceutil.setCursorCollider(stageLock, true);
-				stageLock.addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false }));
+				stageLock.addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: true }));
 				app.anchor.add(stageLock);
-
-				let box1 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ visible: false }));
-				box1.position.set(-59.49, 5.51, -57.14);
-				box1.scale.set(17.94579,38.66379,24.84183)
-				stageLock.add(box1);
-				box1.addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: true, type: 'environment' }, { recursiveMesh: true }));
+				stageLock.position.set(-59.49, 5.51, -57.14);
+				stageLock.scale.set(17.94579,38.66379,24.84183)
 
 				app.anchor.add(stageLock);
-				stageLock.position.set(position.x, position.y, position.z);
-				stageLock.visible = false;
+				stageLock.visible = true;
 				stageLock.traverse(child => {
 					child.visible = stageLock.visible;
 				});
@@ -32,7 +27,7 @@
 
 			if(altspace.inClient) {
 				if(isWhitelistedUser) {
-					createStageLock(new THREE.Vector3(1.0269714, 1.266, 8.4));
+					createStageLock();
 				}
 			}
 				

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<title>Beatsaber Space</title>
+<script src="https://cdn.jsdelivr.net/combine/npm/three@0.96.0/build/three.min.js,npm/altspace@2.9.0/dist/altspace.min.js,npm/altspacevr-behaviors@1.1.5/js/altspaceutil.min.js"></script>
+<script>
+	altspaceutil.getFullspaceApp().then(app => {
+		altspace.getUser().then(user => {
+			let whitelistedUserIds = [/* list of userids to whitelist (in per-domain format) */];
+			let isWhitelistedUser = (user.isModerator || (whitelistedUserIds.length > 0 && whitelistedUserIds.indexOf(user.userId) >= 0));
+
+			elapsedTime = 0;
+
+			function createStageLock(position) {
+				// Create Floor Locks To Keep Player In Place
+				let stageLock = new THREE.Group();
+				altspaceutil.setCursorCollider(stageLock, true);
+				stageLock.addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false }));
+				app.anchor.add(stageLock);
+
+				let box1 = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 10, 1), new THREE.MeshBasicMaterial({ visible: false }));
+				box1.position.set(0, 0, 0);
+				box1.scale.set(10,10,10)
+				stageLock.add(box1);
+				box1.addBehavior(new altspaceutil.behaviors.NativeComponent('n-mesh-collider', { convex: false, type: 'environment' }, { recursiveMesh: true }));
+
+				app.anchor.add(stageLock);
+				stageLock.position.set(position.x, position.y, position.z);
+				stageLock.visible = false;
+				stageLock.traverse(child => {
+					child.visible = slotlock.visible;
+				});
+			}
+
+			if(altspace.inClient) {
+				if(isWhitelistedUser) {
+					createStageLock(new THREE.Vector3(1.0269714, 1.266, 8.4));
+				}
+			}
+				
+			});
+		}).catch(e => console.log(e));
+</script>

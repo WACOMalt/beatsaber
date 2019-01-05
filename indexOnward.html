@@ -10,11 +10,11 @@
 			
 			if(altspace.inClient) {
 				if(isWhitelistedUser) {
-					let nboxcollider = new THREE.Mesh(new THREE.BoxBufferGeometry(18.2, 38.66379, 24.84183), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
+					let nboxcollider = new THREE.Mesh(new THREE.BoxBufferGeometry(20.2, 38.66379, 24.84183), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
 					nboxcollider.position.set(59.49, 5.51, 62);
 					app.anchor.add(nboxcollider);
 					nboxcollider.addBehaviors(
-						new altspaceutil.behaviors.NativeComponent('n-box-collider', { size: { x: 18.2, y: 38.66379, z: 24.84183 } })
+						new altspaceutil.behaviors.NativeComponent('n-box-collider', { size: { x: 20.2, y: 38.66379, z: 24.84183 } })
 						);
 					console.log(isWhitelistedUser);
 					}

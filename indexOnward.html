@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <title>Beatsaber Space</title>
-<script src="https://cdn.jsdelivr.net/combine/npm/three@0.96.0/build/three.min.js,npm/altspace@2.9.0/dist/altspace.min.js,npm/altspacevr-behaviors@1.1.5/js/altspaceutil.min.js"></script>
+<script src="https://cdn.jsdelivr.net/combine/npm/three@0.95.0/build/three.min.js,npm/altspace@2.9.0/dist/altspace.min.js,npm/altspacevr-behaviors@1.1.5/js/altspaceutil.min.js">
+</script>
 <script>
 	altspaceutil.getFullspaceApp().then(app => {
 		altspace.getUser().then(user => {
 			let whitelistedUserIds = [/* list of userids to whitelist (in per-domain format) */];
 			let isWhitelistedUser = (user.isModerator || (whitelistedUserIds.length > 0 && whitelistedUserIds.indexOf(user.userId) >= 0));
 			
-			//if(altspace.inClient) {
-				//if(!isWhitelistedUser) {
+			if(altspace.inClient) {
+				if(isWhitelistedUser) {
 					let nboxcollider = new THREE.Mesh(new THREE.BoxBufferGeometry(2, 2, 2), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
 					nboxcollider.position.set(-36.69, 0.813, -61.341);
 					app.anchor.add(nboxcollider);
@@ -16,8 +17,9 @@
 						new altspaceutil.behaviors.NativeComponent('n-box-collider', { size: { x: 2, y: 2, z: 2 } })
 						);
 					console.log(isWhitelistedUser);
-					//}
-				//}	
+					}
+				}	
 			});
 		}).catch(e => console.log(e));
+
 </script>

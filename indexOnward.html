@@ -26,7 +26,7 @@
 				stageLock.position.set(position.x, position.y, position.z);
 				stageLock.visible = false;
 				stageLock.traverse(child => {
-					child.visible = slotlock.visible;
+					child.visible = stageLock.visible;
 				});
 			}
 

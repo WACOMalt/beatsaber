@@ -5,11 +5,10 @@
 <script>
 	altspaceutil.getFullspaceApp().then(app => {
 		altspace.getUser().then(user => {
-			let whitelistedUserIds = [/* list of userids to whitelist (in per-domain format) */];
-			let isWhitelistedUser = (user.isModerator || (whitelistedUserIds.length > 0 && whitelistedUserIds.indexOf(user.userId) >= 0));
+			let isWhitelistedUser = user.isModerator;
 			
 			if(altspace.inClient) {
-				if(isWhitelistedUser) {
+				if(!isWhitelistedUser) {
 					let nboxcollider = new THREE.Mesh(new THREE.BoxBufferGeometry(24.9, 38.66379, 24.84183), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
 					nboxcollider.position.set(59.49, 5.51, 63);
 					app.anchor.add(nboxcollider);

@@ -8,8 +8,8 @@
 			let isWhitelistedUser = user.isModerator;
 			
 			if(altspace.inClient) {
-				if(!isWhitelistedUser) {
-					let nboxcollider = new THREE.Mesh(new THREE.BoxBufferGeometry(24.9, 38.66379, 24.84183), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
+				if(isWhitelistedUser) {
+					let nboxcollider = new THREE.Group();
 					nboxcollider.position.set(59.49, 5.51, 63);
 					app.anchor.add(nboxcollider);
 					nboxcollider.addBehaviors(

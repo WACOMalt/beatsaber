@@ -15,7 +15,19 @@
 					app.anchor.add(nboxcollider);
 					nboxcollider.addBehaviors(
 						new altspaceutil.behaviors.NativeComponent('n-box-collider', { size: { x: 24.9, y: 38.66379, z: 24.84183 } }),
-						new UserWhitelistRestrictedVolume(kickTarget, whitelistedUserIds));
+						new UserWhitelistRestrictedVolume(kickTarget, whitelistedUserIds)
+						);
+					
+					// Add Restricted Zone For Whitelisted Users
+					let kickTarget = new THREE.Object3D();
+					kickTarget.position.set(-36.69 0.813 -61.341);
+					app.anchor.add(kickTarget);
+					let restrictedArea = new THREE.Mesh(new THREE.BoxBufferGeometry(24.9, 38.66379, 24.84183), new THREE.MeshBasicMaterial({ visible: false }));
+					altspaceutil.setCursorCollider(this.object3d, false);
+					restrictedArea.position.set(59.49, 5.51, 63);
+					restrictedArea.addBehavior(new UserWhitelistRestrictedVolume(kickTarget, whitelistedUserIds));
+					app.anchor.add(restrictedArea);
+					
 					}
 				}	
 			});
@@ -67,19 +79,6 @@
 				if(this.loading) this.loading = false;
 			}
 		};
-
-
-		// Add Restricted Zone For Whitelisted Users
-			let kickTarget = new THREE.Object3D();
-			kickTarget.position.set(-36.69 0.813 -61.341);
-			app.anchor.add(kickTarget);
-			let restrictedArea = new THREE.Mesh(new THREE.BoxBufferGeometry(24.9, 38.66379, 24.84183), new THREE.MeshBasicMaterial({ visible: false }));
-			altspaceutil.setCursorCollider(this.object3d, false);
-			restrictedArea.position.set(59.49, 5.51, 63);
-			restrictedArea.addBehavior(new UserWhitelistRestrictedVolume(kickTarget, whitelistedUserIds));
-			app.anchor.add(restrictedArea);
-
-
-		}).catch(e => console.log(e));
+	}).catch(e => console.log(e));
 
 </script>

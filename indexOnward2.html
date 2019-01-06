@@ -7,6 +7,7 @@
 		altspace.getUser().then(user => {
 			let whitelistedUserIds = [/* list of userids to whitelist (in per-domain format) */];
 			let isWhitelistedUser = (user.isModerator || (whitelistedUserIds.length > 0 && whitelistedUserIds.indexOf(user.userId) >= 0));;
+			console.log(altspace.getUser());
 			
 			if(altspace.inClient) {
 				if(!isWhitelistedUser) {

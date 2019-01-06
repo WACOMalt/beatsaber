@@ -73,11 +73,9 @@
 			let kickTarget = new THREE.Object3D();
 			kickTarget.position.set(-36.69 0.813 -61.341);
 			app.anchor.add(kickTarget);
-
-			let restrictedArea = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ visible: false }));
+			let restrictedArea = new THREE.Mesh(new THREE.BoxBufferGeometry(24.9, 38.66379, 24.84183), new THREE.MeshBasicMaterial({ visible: false }));
 			altspaceutil.setCursorCollider(this.object3d, false);
 			restrictedArea.position.set(59.49, 5.51, 63);
-			restrictedArea.scale.set(24.9, 38.66379, 24.84183);
 			restrictedArea.addBehavior(new UserWhitelistRestrictedVolume(kickTarget, whitelistedUserIds));
 			app.anchor.add(restrictedArea);
 

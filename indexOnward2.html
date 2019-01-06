@@ -5,8 +5,9 @@
 <script>
 	altspaceutil.getFullspaceApp().then(app => {
 		altspace.getUser().then(user => {
-			let whitelistedUserIds = [ Genesis, Nightfiree, Pandoomic, SL33PYcastsVR, THVRCamera, Trip13Nipp13, WACOMalt, Xandria00, mgzhang, salacain];
+			let whitelistedUserIds = [];
 			let isWhitelistedUser = (user.isModerator || (whitelistedUserIds.length > 0 && whitelistedUserIds.indexOf(user.userId) >= 0));
+			console.log(altspace.getUser());
 			
 			if(altspace.inClient) {
 				if(!isWhitelistedUser) {

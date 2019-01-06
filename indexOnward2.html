@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<title>Beatsaber Space</title>
+<script src="https://cdn.jsdelivr.net/combine/npm/three@0.95.0/build/three.min.js,npm/altspace@2.9.0/dist/altspace.min.js,npm/altspacevr-behaviors@1.1.5/js/altspaceutil.min.js">
+</script>
+<script>
+	altspaceutil.getFullspaceApp().then(app => {
+		altspace.getUser().then(user => {
+			let whitelistedUserIds = [ Genesis, Nightfiree, Pandoomic, SL33PYcastsVR, THVRCamera, Trip13Nipp13, WACOMalt, Xandria00, mgzhang, salacain];
+			let isWhitelistedUser = (user.isModerator || (whitelistedUserIds.length > 0 && whitelistedUserIds.indexOf(user.userId) >= 0));
+			
+			if(altspace.inClient) {
+				if(!isWhitelistedUser) {
+					let nboxcollider = new THREE.Mesh(new THREE.BoxBufferGeometry(24.9, 38.66379, 24.84183), new THREE.MeshBasicMaterial({ color: 0xff0000, visible: false }));
+					nboxcollider.position.set(59.49, 5.51, 63);
+					app.anchor.add(nboxcollider);
+					nboxcollider.addBehaviors(
+						new altspaceutil.behaviors.NativeComponent('n-box-collider', { size: { x: 24.9, y: 38.66379, z: 24.84183 } })
+						new UserWhitelistRestrictedVolume(kickTarget, whitelistedUserIds));
+					}
+				}	
+			});
+
+			class UserWhitelistRestrictedVolume {
+			constructor(target, whitelistedUserIds) {
+				this.target = target;
+				this.userids = whitelistedUserIds || [];
+				this.enabled = true;
+			}
+
+			awake(o, s) {
+				this.loading = true;
+				this.scene = s;
+				this.object3d = o;
+				this.object3d.visible = false;
+
+				Promise.all([altspace.getUser(), altspace.getThreeJSTrackingSkeleton()]).then(resolvers => {
+					let [user, skeleton] = resolvers;
+
+					if(this.loading) {
+						this.loading = false;
+						this.user = user;
+
+						if(!skeleton.parent) this.scene.add(skeleton);
+						this.avatar = skeleton.getJoint('Spine');
+
+						this.portal = new THREE.Object3D();
+						this.portal.visible = false;
+						this.portal.addBehavior(new altspaceutil.behaviors.NativeComponent('n-portal', {}, { targetEntity: this.target }));
+						this.scene.add(this.portal);
+
+						this.box = new THREE.Box3();
+					}
+				});
+			}
+
+			update(deltaTime) {
+				if(this.box) {
+					this.box.setFromObject(this.object3d);
+					if(altspace.inClient) {this.portal.position.copy(this.avatar.position);}
+
+					let isWhitelistedUser = (!this.enabled || this.user.isModerator || (this.userids.length > 0 && this.userids.indexOf(this.user.userId) >= 0));
+					this.portal.visible = (!isWhitelistedUser && this.avatar && this.box.containsPoint(this.avatar.position));
+				}
+			}
+
+			dispose() {
+				if(this.loading) this.loading = false;
+			}
+		};
+
+
+		// Add Restricted Zone For Whitelisted Users
+			let kickTarget = new THREE.Object3D();
+			kickTarget.position.set(-36.69 0.813 -61.341);
+			app.anchor.add(kickTarget);
+
+			let restrictedArea = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ visible: false }));
+			altspaceutil.setCursorCollider(this.object3d, false);
+			restrictedArea.position.set(59.49, 5.51, 63);
+			restrictedArea.scale.set(24.9, 38.66379, 24.84183);
+			restrictedArea.addBehavior(new UserWhitelistRestrictedVolume(kickTarget, whitelistedUserIds));
+			app.anchor.add(restrictedArea);
+
+
+		}).catch(e => console.log(e));
+
+</script>
